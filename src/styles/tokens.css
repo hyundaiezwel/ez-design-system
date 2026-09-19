@@ -149,6 +149,12 @@
   --ez-chart-5: #468d4f;
   --ez-chart-6: #a15449;
 
+  /* 비교 쌍의 '지난 기간' 쪽. **기본 차트는 두 색이다** — 브랜드 1색 + 이 중립색.
+     계열이 3개 이상일 때만 `--ez-chart-*`로 넓힌다.
+     참조 킷은 더 밝은 회색을 쓰지만 그 값은 면 대비 3:1을 못 넘는다 — 톤만 가져오고
+     값은 우리 스케일에서 뽑는다(step 40 = 3:1). */
+  --ez-chart-muted: var(--ez-color-gray-40);
+
   /* ===========================================================================
    * 2. Primitive — 치수·타이포·모션
    * ========================================================================= */
@@ -174,6 +180,9 @@
   --ez-font-size-lg: calc(16px + var(--ez-font-size-offset));
   --ez-font-size-xl: calc(20px + var(--ez-font-size-offset));
   --ez-font-size-2xl: calc(24px + var(--ez-font-size-offset));
+  /* 숫자를 주인공으로 세우는 단계. KPI 값·금액 전용이고 문장에는 쓰지 않는다 */
+  --ez-font-size-3xl: calc(28px + var(--ez-font-size-offset));
+  --ez-font-size-4xl: calc(34px + var(--ez-font-size-offset));
   --ez-font-size-offset: 0px;
 
   /* 굵기 — 3단계만. h-pms는 500/600/700/800을 섞어 써서 강조 위계가 안 읽혔다 */
@@ -195,6 +204,7 @@
   --ez-radius-sm: 4px; /* 뱃지·체크박스·작은 버튼 */
   --ez-radius-md: 8px; /* 입력·버튼·셀렉트 */
   --ez-radius-lg: 12px; /* 카드·패널·모달 */
+  --ez-radius-xl: 16px; /* 여유 밀도의 카드 */
   --ez-radius-full: 999px;
 
   /* 높이 — 입력·버튼·행의 세로 규격. 세 값 밖으로 나가지 않는다 */
@@ -324,10 +334,44 @@
   --ez-status-brand-bg: var(--ez-color-primary-5);
   --ez-status-brand-bd: var(--ez-color-primary-20);
 
+  /* ---------------------------------------------------------------------------
+   * 밀도 — 화면 성격이 다르면 여백도 달라야 한다
+   * ---------------------------------------------------------------------------
+   * 기본은 **compact**다. 목록·폼처럼 한 화면에 많이 담아야 하는 업무 화면 기준이다.
+   *
+   * 대시보드·통계처럼 위젯 몇 개가 전부인 화면은 `data-density="comfortable"`을 걸어
+   * 여백을 키운다. 이때 카드는 **테두리를 버리고 여백과 그림자로 분리**한다 —
+   * 여백이 충분하면 선이 필요 없고, 선과 여백을 같이 쓰면 시끄럽다.
+   *
+   * 밀도를 화면마다 손으로 조절하지 않고 이 스위치 하나로 가르는 것이 요점이다.
+   * ------------------------------------------------------------------------- */
+  --ez-card-padding: var(--ez-space-4);
+  --ez-card-gap: var(--ez-space-4);
+  --ez-card-radius: var(--ez-radius-lg);
+  --ez-card-border-width: 1px;
+  --ez-card-shadow: none;
+  --ez-section-gap: var(--ez-space-4);
+
   /* 포커스 링 — 전역 단일 규격. 컴포넌트마다 다시 정의하지 않는다 */
   --ez-focus-ring-width: 2px;
   --ez-focus-ring-offset: 2px;
   --ez-focus-ring-color: var(--ez-color-secondary-50);
+}
+
+/* =============================================================================
+ * 3-1. 여유 밀도 — `data-density="comfortable"`
+ * -----------------------------------------------------------------------------
+ * 대시보드·통계처럼 위젯이 몇 개뿐인 화면용. 목록·폼에는 걸지 않는다 —
+ * 행 높이가 커지면 30만 행 그리드에서 한 화면에 여덟 줄이 들어간다.
+ * ========================================================================== */
+
+[data-density='comfortable'] {
+  --ez-card-padding: var(--ez-space-6);
+  --ez-card-gap: var(--ez-space-6);
+  --ez-card-radius: var(--ez-radius-xl);
+  --ez-card-border-width: 0;
+  --ez-card-shadow: var(--ez-shadow-raised);
+  --ez-section-gap: var(--ez-space-6);
 }
 
 /* =============================================================================
@@ -338,7 +382,13 @@
  * surface(gray-90) 위 대비 — step 20 10.7:1 / step 30 7.6:1 / step 40 5.0:1.
  * ========================================================================== */
 
-:root[data-theme='dark'] {
+/**
+ * `[data-scheme='dark']`를 함께 받는 이유 — **부분 다크**가 필요하다.
+ * 셸(헤더·LNB)만 어둡고 본문은 밝은 배치가 흔한데, 루트 전체를 뒤집으면 그게 안 된다.
+ * 아무 요소에나 `data-scheme="dark"`를 걸면 그 서브트리만 다크 의미 토큰을 쓴다.
+ */
+:root[data-theme='dark'],
+[data-scheme='dark'] {
   --ez-surface-canvas: var(--ez-color-gray-95);
   --ez-surface-sunken: var(--ez-color-gray-95);
   --ez-surface-default: var(--ez-color-gray-90);

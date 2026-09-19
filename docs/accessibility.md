@@ -14,6 +14,7 @@
 | 줄간격 150% | `--ez-line-height-normal` 기본값 |
 | 확대 지원 | `data-font-scale` 5단계 |
 | 고대비 모드 | `data-contrast="high"` — step을 한 단계 올린다 |
+| 부분 다크 | `data-scheme="dark"` — 그 서브트리만 다크 의미 토큰. 셸만 어둡게 할 때 쓴다 |
 | 모션 축소 | `prefers-reduced-motion`에서 duration 토큰이 0이 된다 |
 
 **`--ez-color-*`(primitive)를 화면에서 직접 쓰면 이 보장이 깨진다.** semantic만 쓴다.
