@@ -1,0 +1,151 @@
+/* =============================================================================
+ * base.css — reset + 전역 기본값
+ * tokens.css 다음에 로드한다. 컴포넌트 스타일보다 앞이다.
+ * ============================================================================= */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--ez-font-family);
+  font-size: var(--ez-font-size-sm);
+  font-weight: var(--ez-font-weight-regular);
+  line-height: var(--ez-line-height-normal);
+  color: var(--ez-text-default);
+  background: var(--ez-surface-canvas);
+  -webkit-font-smoothing: antialiased;
+  text-size-adjust: 100%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+  font-weight: var(--ez-font-weight-bold);
+  line-height: var(--ez-line-height-tight);
+  color: var(--ez-text-strong);
+}
+
+h1 { font-size: var(--ez-font-size-2xl); }
+h2 { font-size: var(--ez-font-size-xl); }
+h3 { font-size: var(--ez-font-size-lg); }
+h4 { font-size: var(--ez-font-size-md); }
+h5, h6 { font-size: var(--ez-font-size-sm); }
+
+p, figure, blockquote, dl, dd {
+  margin: 0;
+}
+
+ul, ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+a {
+  color: var(--ez-text-link);
+  text-decoration: underline; /* 색만으로 링크를 구분하지 않는다 (WCAG 1.4.1) */
+  text-underline-offset: 2px;
+}
+
+a:hover {
+  text-decoration-thickness: 2px;
+}
+
+img, svg, video {
+  display: block;
+  max-width: 100%;
+}
+
+button, input, select, textarea {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* -----------------------------------------------------------------------------
+ * 포커스 링 — 전역 단일 규격
+ * `:focus-visible`만 그린다. 마우스 클릭에는 안 뜨고 키보드 이동에만 뜬다.
+ * 컴포넌트가 `outline: none`으로 지우는 것을 금지한다 — 지우면 키보드 사용자가 길을 잃는다.
+ * -------------------------------------------------------------------------- */
+
+:focus-visible {
+  outline: var(--ez-focus-ring-width) solid var(--ez-focus-ring-color);
+  outline-offset: var(--ez-focus-ring-offset);
+  border-radius: var(--ez-radius-sm);
+}
+
+/* 마우스 포커스에서는 링을 숨기되, 지원하지 않는 브라우저에서는 기본 outline을 남긴다 */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* -----------------------------------------------------------------------------
+ * 접근성 유틸
+ * -------------------------------------------------------------------------- */
+
+/* 화면에는 안 보이고 스크린리더만 읽는다. `display:none`은 읽히지 않으므로 쓰지 않는다 */
+.ez-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* 키보드 포커스가 오면 드러난다 — 본문 바로가기 링크용 */
+.ez-skip-link {
+  position: absolute;
+  top: var(--ez-space-2);
+  left: var(--ez-space-2);
+  z-index: var(--ez-z-toast);
+  padding: var(--ez-space-2) var(--ez-space-4);
+  background: var(--ez-surface-default);
+  color: var(--ez-text-strong);
+  border-radius: var(--ez-radius-md);
+  box-shadow: var(--ez-shadow-overlay);
+  transform: translateY(-200%);
+}
+
+.ez-skip-link:focus {
+  transform: translateY(0);
+}
+
+/* 한 줄 말줄임 */
+.ez-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* 스크롤 영역 — 업무 화면은 본문만 스크롤하고 셸은 고정한다 */
+.ez-scroll {
+  overflow: auto;
+  overscroll-behavior: contain;
+}

@@ -1,0 +1,1169 @@
+<title>EZ UI 파운데이션</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+
+<style>
+/* ===========================================================================
+ * 토큰 — src/styles/tokens.css 사본.
+ * 정본이 바뀌면 이 블록을 갈아끼운다.
+ * ======================================================================== */
+:root {
+  --ez-color-gray-0: #ffffff;   --ez-color-gray-5: #f6f7f8;   --ez-color-gray-10: #eeeff0;
+  --ez-color-gray-20: #d7dade;  --ez-color-gray-30: #b3b9c0;  --ez-color-gray-40: #8e96a1;
+  --ez-color-gray-50: #6e7884;  --ez-color-gray-60: #606873;  --ez-color-gray-70: #535a63;
+  --ez-color-gray-80: #3e434a;  --ez-color-gray-90: #24272b;  --ez-color-gray-95: #141618;
+  --ez-color-gray-100: #000000;
+
+  --ez-color-primary-5: #f0f9f8;  --ez-color-primary-10: #dbf4f0; --ez-color-primary-20: #94e9de;
+  --ez-color-primary-30: #16cfb5; --ez-color-primary-40: #009782; --ez-color-primary-50: #038674;
+  --ez-color-primary-60: #067465; --ez-color-primary-70: #086558; --ez-color-primary-80: #084b42;
+  --ez-color-primary-90: #062c27; --ez-color-primary-95: #041916;
+
+  --ez-color-secondary-5: #f5f7fa;  --ez-color-secondary-10: #eaeff7; --ez-color-secondary-20: #cedbf0;
+  --ez-color-secondary-30: #9bbaeb; --ez-color-secondary-40: #6095eb; --ez-color-secondary-50: #2b73e5;
+  --ez-color-secondary-60: #1f62ce; --ez-color-secondary-70: #1f56af; --ez-color-secondary-80: #1a417f;
+  --ez-color-secondary-90: #112649; --ez-color-secondary-95: #0b1628;
+
+  --ez-color-success-5: #f3f8f5;  --ez-color-success-10: #e4f2ea; --ez-color-success-20: #b6e4cc;
+  --ez-color-success-30: #52ce8c; --ez-color-success-40: #23aa62; --ez-color-success-50: #1c884e;
+  --ez-color-success-60: #1b7545; --ez-color-success-70: #1a663d; --ez-color-success-80: #154c2f;
+  --ez-color-success-90: #0e2c1c; --ez-color-success-95: #091910;
+
+  --ez-color-warning-5: #faf7f2;  --ez-color-warning-10: #f5eee1; --ez-color-warning-20: #efd7ae;
+  --ez-color-warning-30: #ebad42; --ez-color-warning-40: #cf8505; --ez-color-warning-50: #a56a04;
+  --ez-color-warning-60: #8e5d07; --ez-color-warning-70: #7a510a; --ez-color-warning-80: #5a3d0a;
+  --ez-color-warning-90: #342407; --ez-color-warning-95: #1e1505;
+
+  --ez-color-danger-5: #fbf6f6;  --ez-color-danger-10: #f7ecec; --ez-color-danger-20: #f2d3d2;
+  --ez-color-danger-30: #eda6a4; --ez-color-danger-40: #ec6e69; --ez-color-danger-50: #e42b24;
+  --ez-color-danger-60: #c7231e; --ez-color-danger-70: #ac231e; --ez-color-danger-80: #7f1d1a;
+  --ez-color-danger-90: #4b1311; --ez-color-danger-95: #2b0c0b;
+
+  --ez-space-1: 4px; --ez-space-2: 8px; --ez-space-3: 12px; --ez-space-4: 16px;
+  --ez-space-5: 20px; --ez-space-6: 24px; --ez-space-8: 32px; --ez-space-10: 40px; --ez-space-12: 48px;
+
+  --ez-font-size-offset: 0px;
+  --ez-font-size-2xs: calc(11px + var(--ez-font-size-offset));
+  --ez-font-size-xs: calc(12px + var(--ez-font-size-offset));
+  --ez-font-size-sm: calc(13px + var(--ez-font-size-offset));
+  --ez-font-size-md: calc(14px + var(--ez-font-size-offset));
+  --ez-font-size-lg: calc(16px + var(--ez-font-size-offset));
+  --ez-font-size-xl: calc(20px + var(--ez-font-size-offset));
+  --ez-font-size-2xl: calc(24px + var(--ez-font-size-offset));
+
+  --ez-font-weight-regular: 400; --ez-font-weight-medium: 500; --ez-font-weight-bold: 700;
+  --ez-line-height-tight: 1.3; --ez-line-height-normal: 1.5; --ez-line-height-loose: 1.7;
+
+  --ez-font-family: 'Pretendard', 'Pretendard Variable', -apple-system, 'Apple SD Gothic Neo',
+    'Malgun Gothic', BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --ez-font-family-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, monospace;
+
+  --ez-radius-sm: 4px; --ez-radius-md: 8px; --ez-radius-lg: 12px; --ez-radius-full: 999px;
+  --ez-size-sm: 28px; --ez-size-md: 34px; --ez-size-lg: 40px;
+
+  --ez-shadow-raised: 0 1px 2px rgba(20, 30, 45, .08);
+  --ez-shadow-overlay: 0 4px 12px rgba(20, 30, 45, .12);
+  --ez-shadow-modal: 0 16px 40px rgba(20, 30, 45, .2);
+
+  --ez-duration-fast: 120ms; --ez-duration-normal: 200ms; --ez-duration-slow: 320ms;
+  --ez-easing-standard: cubic-bezier(.2, 0, 0, 1);
+  --ez-easing-decelerate: cubic-bezier(.16, 1, .3, 1);
+
+  --ez-z-sticky: 100; --ez-z-dropdown: 200; --ez-z-panel: 300; --ez-z-modal: 400; --ez-z-toast: 500;
+
+  /* semantic — 라이트 */
+  --ez-surface-canvas: var(--ez-color-gray-10);
+  --ez-surface-sunken: var(--ez-color-gray-5);
+  --ez-surface-default: var(--ez-color-gray-0);
+  --ez-surface-raised: var(--ez-color-gray-0);
+  --ez-surface-hover: var(--ez-color-gray-5);
+  --ez-surface-selected: var(--ez-color-primary-5);
+  --ez-surface-scrim: rgba(20, 23, 26, .45);
+
+  --ez-text-strong: var(--ez-color-gray-95);
+  --ez-text-default: var(--ez-color-gray-80);
+  --ez-text-muted: var(--ez-color-gray-50);
+  --ez-text-disabled: var(--ez-color-gray-40);
+  --ez-text-inverse: var(--ez-color-gray-0);
+  --ez-text-brand: var(--ez-color-primary-50);
+  --ez-text-danger: var(--ez-color-danger-60);
+  --ez-text-link: var(--ez-color-secondary-60);
+
+  --ez-border-strong: var(--ez-color-gray-40);
+  --ez-border-default: var(--ez-color-gray-20);
+  --ez-border-subtle: var(--ez-color-gray-10);
+  --ez-border-danger: var(--ez-color-danger-50);
+
+  --ez-icon-default: var(--ez-color-gray-60);
+  --ez-icon-muted: var(--ez-color-gray-40);
+
+  --ez-action-primary: var(--ez-color-primary-50);
+  --ez-action-primary-hover: var(--ez-color-primary-60);
+  --ez-action-primary-pressed: var(--ez-color-primary-70);
+  --ez-action-primary-on: var(--ez-color-gray-0);
+  --ez-action-secondary: var(--ez-color-gray-0);
+  --ez-action-secondary-hover: var(--ez-color-gray-5);
+  --ez-action-secondary-on: var(--ez-color-gray-80);
+  --ez-action-secondary-border: var(--ez-color-gray-20);
+  --ez-action-danger: var(--ez-color-danger-60);
+  --ez-action-danger-hover: var(--ez-color-danger-70);
+  --ez-action-danger-on: var(--ez-color-gray-0);
+  --ez-action-disabled: var(--ez-color-gray-10);
+  --ez-action-disabled-on: var(--ez-color-gray-40);
+
+  --ez-field-bg: var(--ez-color-gray-0);
+  --ez-field-bg-readonly: var(--ez-color-gray-5);
+  --ez-field-bg-disabled: var(--ez-color-gray-10);
+  --ez-field-border: var(--ez-color-gray-20);
+  --ez-field-border-hover: var(--ez-color-gray-30);
+  --ez-field-placeholder: var(--ez-color-gray-50);
+
+  --ez-status-neutral-fg: var(--ez-color-gray-60); --ez-status-neutral-bg: var(--ez-color-gray-5);      --ez-status-neutral-bd: var(--ez-color-gray-20);
+  --ez-status-brand-fg: var(--ez-color-primary-60); --ez-status-brand-bg: var(--ez-color-primary-5);    --ez-status-brand-bd: var(--ez-color-primary-20);
+  --ez-status-info-fg: var(--ez-color-secondary-60); --ez-status-info-bg: var(--ez-color-secondary-5);  --ez-status-info-bd: var(--ez-color-secondary-20);
+  --ez-status-success-fg: var(--ez-color-success-60); --ez-status-success-bg: var(--ez-color-success-5); --ez-status-success-bd: var(--ez-color-success-20);
+  --ez-status-warning-fg: var(--ez-color-warning-60); --ez-status-warning-bg: var(--ez-color-warning-5); --ez-status-warning-bd: var(--ez-color-warning-20);
+  --ez-status-danger-fg: var(--ez-color-danger-60); --ez-status-danger-bg: var(--ez-color-danger-5);    --ez-status-danger-bd: var(--ez-color-danger-20);
+
+  --ez-focus-ring-width: 2px;
+  --ez-focus-ring-offset: 2px;
+  --ez-focus-ring-color: var(--ez-color-secondary-50);
+
+  --ez-select-chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%233e434a' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+}
+
+/* 다크 — semantic만 재매핑한다 */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ez-surface-canvas: var(--ez-color-gray-95); --ez-surface-sunken: #1a1d20;
+    --ez-surface-default: var(--ez-color-gray-90); --ez-surface-raised: #2c3035;
+    --ez-surface-hover: #2c3035; --ez-surface-selected: var(--ez-color-primary-90);
+    --ez-surface-scrim: rgba(0, 0, 0, .6);
+    --ez-text-strong: var(--ez-color-gray-5); --ez-text-default: var(--ez-color-gray-20);
+    --ez-text-muted: var(--ez-color-gray-40); --ez-text-disabled: var(--ez-color-gray-60);
+    --ez-text-inverse: var(--ez-color-gray-95); --ez-text-brand: var(--ez-color-primary-30);
+    --ez-text-danger: var(--ez-color-danger-30); --ez-text-link: var(--ez-color-secondary-30);
+    --ez-border-strong: var(--ez-color-gray-50); --ez-border-default: var(--ez-color-gray-70);
+    --ez-border-subtle: var(--ez-color-gray-80); --ez-border-danger: var(--ez-color-danger-30);
+    --ez-icon-default: var(--ez-color-gray-30); --ez-icon-muted: var(--ez-color-gray-50);
+    --ez-action-primary: var(--ez-color-primary-30); --ez-action-primary-hover: var(--ez-color-primary-20);
+    --ez-action-primary-pressed: var(--ez-color-primary-40); --ez-action-primary-on: var(--ez-color-gray-95);
+    --ez-action-secondary: transparent; --ez-action-secondary-hover: #2c3035;
+    --ez-action-secondary-on: var(--ez-color-gray-20); --ez-action-secondary-border: var(--ez-color-gray-70);
+    --ez-action-danger: var(--ez-color-danger-40); --ez-action-danger-hover: var(--ez-color-danger-30);
+    --ez-action-danger-on: var(--ez-color-gray-95);
+    --ez-action-disabled: var(--ez-color-gray-80); --ez-action-disabled-on: var(--ez-color-gray-60);
+    --ez-field-bg: #1a1d20; --ez-field-bg-readonly: var(--ez-color-gray-95);
+    --ez-field-bg-disabled: var(--ez-color-gray-95); --ez-field-border: var(--ez-color-gray-70);
+    --ez-field-border-hover: var(--ez-color-gray-60); --ez-field-placeholder: var(--ez-color-gray-50);
+    --ez-status-neutral-fg: var(--ez-color-gray-30); --ez-status-neutral-bg: #2c3035; --ez-status-neutral-bd: var(--ez-color-gray-70);
+    --ez-status-brand-fg: var(--ez-color-primary-30); --ez-status-brand-bg: var(--ez-color-primary-90); --ez-status-brand-bd: var(--ez-color-primary-80);
+    --ez-status-info-fg: var(--ez-color-secondary-30); --ez-status-info-bg: var(--ez-color-secondary-90); --ez-status-info-bd: var(--ez-color-secondary-80);
+    --ez-status-success-fg: var(--ez-color-success-30); --ez-status-success-bg: var(--ez-color-success-90); --ez-status-success-bd: var(--ez-color-success-80);
+    --ez-status-warning-fg: var(--ez-color-warning-30); --ez-status-warning-bg: var(--ez-color-warning-90); --ez-status-warning-bd: var(--ez-color-warning-80);
+    --ez-status-danger-fg: var(--ez-color-danger-30); --ez-status-danger-bg: var(--ez-color-danger-90); --ez-status-danger-bd: var(--ez-color-danger-80);
+    --ez-focus-ring-color: var(--ez-color-secondary-30);
+    --ez-shadow-raised: 0 1px 2px rgba(0, 0, 0, .4);
+    --ez-shadow-overlay: 0 4px 12px rgba(0, 0, 0, .5);
+    --ez-shadow-modal: 0 16px 40px rgba(0, 0, 0, .6);
+    --ez-select-chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23d7dade' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  }
+}
+
+:root[data-theme="dark"] {
+  --ez-surface-canvas: var(--ez-color-gray-95); --ez-surface-sunken: #1a1d20;
+  --ez-surface-default: var(--ez-color-gray-90); --ez-surface-raised: #2c3035;
+  --ez-surface-hover: #2c3035; --ez-surface-selected: var(--ez-color-primary-90);
+  --ez-surface-scrim: rgba(0, 0, 0, .6);
+  --ez-text-strong: var(--ez-color-gray-5); --ez-text-default: var(--ez-color-gray-20);
+  --ez-text-muted: var(--ez-color-gray-40); --ez-text-disabled: var(--ez-color-gray-60);
+  --ez-text-inverse: var(--ez-color-gray-95); --ez-text-brand: var(--ez-color-primary-30);
+  --ez-text-danger: var(--ez-color-danger-30); --ez-text-link: var(--ez-color-secondary-30);
+  --ez-border-strong: var(--ez-color-gray-50); --ez-border-default: var(--ez-color-gray-70);
+  --ez-border-subtle: var(--ez-color-gray-80); --ez-border-danger: var(--ez-color-danger-30);
+  --ez-icon-default: var(--ez-color-gray-30); --ez-icon-muted: var(--ez-color-gray-50);
+  --ez-action-primary: var(--ez-color-primary-30); --ez-action-primary-hover: var(--ez-color-primary-20);
+  --ez-action-primary-pressed: var(--ez-color-primary-40); --ez-action-primary-on: var(--ez-color-gray-95);
+  --ez-action-secondary: transparent; --ez-action-secondary-hover: #2c3035;
+  --ez-action-secondary-on: var(--ez-color-gray-20); --ez-action-secondary-border: var(--ez-color-gray-70);
+  --ez-action-danger: var(--ez-color-danger-40); --ez-action-danger-hover: var(--ez-color-danger-30);
+  --ez-action-danger-on: var(--ez-color-gray-95);
+  --ez-action-disabled: var(--ez-color-gray-80); --ez-action-disabled-on: var(--ez-color-gray-60);
+  --ez-field-bg: #1a1d20; --ez-field-bg-readonly: var(--ez-color-gray-95);
+  --ez-field-bg-disabled: var(--ez-color-gray-95); --ez-field-border: var(--ez-color-gray-70);
+  --ez-field-border-hover: var(--ez-color-gray-60); --ez-field-placeholder: var(--ez-color-gray-50);
+  --ez-status-neutral-fg: var(--ez-color-gray-30); --ez-status-neutral-bg: #2c3035; --ez-status-neutral-bd: var(--ez-color-gray-70);
+  --ez-status-brand-fg: var(--ez-color-primary-30); --ez-status-brand-bg: var(--ez-color-primary-90); --ez-status-brand-bd: var(--ez-color-primary-80);
+  --ez-status-info-fg: var(--ez-color-secondary-30); --ez-status-info-bg: var(--ez-color-secondary-90); --ez-status-info-bd: var(--ez-color-secondary-80);
+  --ez-status-success-fg: var(--ez-color-success-30); --ez-status-success-bg: var(--ez-color-success-90); --ez-status-success-bd: var(--ez-color-success-80);
+  --ez-status-warning-fg: var(--ez-color-warning-30); --ez-status-warning-bg: var(--ez-color-warning-90); --ez-status-warning-bd: var(--ez-color-warning-80);
+  --ez-status-danger-fg: var(--ez-color-danger-30); --ez-status-danger-bg: var(--ez-color-danger-90); --ez-status-danger-bd: var(--ez-color-danger-80);
+  --ez-focus-ring-color: var(--ez-color-secondary-30);
+  --ez-shadow-raised: 0 1px 2px rgba(0, 0, 0, .4);
+  --ez-shadow-overlay: 0 4px 12px rgba(0, 0, 0, .5);
+  --ez-shadow-modal: 0 16px 40px rgba(0, 0, 0, .6);
+  --ez-select-chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23d7dade' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+}
+
+:root[data-contrast="high"] {
+  --ez-text-default: var(--ez-color-gray-90); --ez-text-muted: var(--ez-color-gray-70);
+  --ez-text-disabled: var(--ez-color-gray-50); --ez-border-default: var(--ez-color-gray-40);
+  --ez-border-subtle: var(--ez-color-gray-30); --ez-icon-default: var(--ez-color-gray-70);
+  --ez-icon-muted: var(--ez-color-gray-50); --ez-field-border: var(--ez-color-gray-50);
+  --ez-focus-ring-width: 3px;
+}
+:root[data-theme="dark"][data-contrast="high"] {
+  --ez-text-default: var(--ez-color-gray-5); --ez-text-muted: var(--ez-color-gray-30);
+  --ez-text-disabled: var(--ez-color-gray-50); --ez-border-default: var(--ez-color-gray-40);
+  --ez-border-subtle: var(--ez-color-gray-60); --ez-icon-default: var(--ez-color-gray-20);
+  --ez-icon-muted: var(--ez-color-gray-40); --ez-field-border: var(--ez-color-gray-40);
+}
+
+:root[data-font-scale="2"] { --ez-font-size-offset: 1px; }
+:root[data-font-scale="3"] { --ez-font-size-offset: 2px; }
+:root[data-font-scale="4"] { --ez-font-size-offset: 3px; }
+:root[data-font-scale="5"] { --ez-font-size-offset: 4px; }
+
+@media (prefers-reduced-motion: reduce) {
+  :root { --ez-duration-fast: .01ms; --ez-duration-normal: .01ms; --ez-duration-slow: .01ms; }
+}
+
+/* ===========================================================================
+ * 가이드 페이지 자체의 레이아웃
+ * ======================================================================== */
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: var(--ez-font-family);
+  font-size: var(--ez-font-size-sm);
+  line-height: var(--ez-line-height-normal);
+  color: var(--ez-text-default);
+  background: var(--ez-surface-canvas);
+  -webkit-font-smoothing: antialiased;
+}
+
+:focus-visible {
+  outline: var(--ez-focus-ring-width) solid var(--ez-focus-ring-color);
+  outline-offset: var(--ez-focus-ring-offset);
+  border-radius: var(--ez-radius-sm);
+}
+
+code, .mono, .tok { font-family: var(--ez-font-family-mono); font-size: .92em; }
+
+.bar {
+  position: sticky;
+  top: env(safe-area-inset-top, 0px);
+  z-index: var(--ez-z-sticky);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--ez-space-4);
+  padding: var(--ez-space-3) var(--ez-space-4);
+  background: var(--ez-surface-default);
+  border-bottom: 1px solid var(--ez-border-default);
+}
+
+.bar__brand {
+  display: flex;
+  align-items: baseline;
+  gap: var(--ez-space-2);
+  margin-right: auto;
+}
+.bar__mark {
+  font-family: var(--ez-font-family-mono);
+  font-size: var(--ez-font-size-xs);
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--ez-text-brand);
+}
+.bar__title { font-size: var(--ez-font-size-md); font-weight: 700; color: var(--ez-text-strong); }
+
+.ctl { display: flex; align-items: center; gap: var(--ez-space-2); }
+.ctl__lab {
+  font-family: var(--ez-font-family-mono);
+  font-size: var(--ez-font-size-2xs);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--ez-text-muted);
+}
+
+.seg { display: flex; border: 1px solid var(--ez-border-default); border-radius: var(--ez-radius-md); overflow: hidden; }
+.seg button {
+  padding: 0 var(--ez-space-3);
+  height: var(--ez-size-sm);
+  border: none;
+  background: var(--ez-surface-default);
+  color: var(--ez-text-muted);
+  font: inherit;
+  font-size: var(--ez-font-size-xs);
+  cursor: pointer;
+}
+.seg button + button { border-left: 1px solid var(--ez-border-default); }
+.seg button[aria-pressed="true"] {
+  background: var(--ez-action-primary);
+  color: var(--ez-action-primary-on);
+  font-weight: 700;
+}
+
+.wrap {
+  display: grid;
+  /* 두 트랙 모두 minmax(0, …) — auto 최소값이면 긴 내용이 트랙을 밀어 페이지가 가로로 넘친다 */
+  grid-template-columns: minmax(0, 180px) minmax(0, 1fr);
+  gap: var(--ez-space-8);
+  max-width: 1180px;
+  margin: 0 auto;
+  padding-inline: var(--ez-space-4);
+  padding-block: var(--ez-space-8) var(--ez-space-12);
+}
+
+.toc { position: sticky; top: 84px; align-self: start; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+main { min-width: 0; }
+.toc a {
+  padding: var(--ez-space-1) var(--ez-space-2);
+  border-radius: var(--ez-radius-sm);
+  color: var(--ez-text-muted);
+  text-decoration: none;
+  font-size: var(--ez-font-size-xs);
+}
+.toc a:hover { background: var(--ez-surface-hover); color: var(--ez-text-default); }
+
+section { margin-bottom: var(--ez-space-12); scroll-margin-top: 84px; }
+
+h2 {
+  margin: 0 0 var(--ez-space-2);
+  font-size: var(--ez-font-size-xl);
+  font-weight: 700;
+  color: var(--ez-text-strong);
+  text-wrap: balance;
+}
+h3 {
+  margin: var(--ez-space-6) 0 var(--ez-space-3);
+  font-size: var(--ez-font-size-md);
+  font-weight: 700;
+  color: var(--ez-text-strong);
+}
+.lede { margin: 0 0 var(--ez-space-5); max-width: 62ch; color: var(--ez-text-muted); }
+p { margin: 0 0 var(--ez-space-3); max-width: 68ch; }
+
+.card {
+  padding: var(--ez-space-5);
+  background: var(--ez-surface-default);
+  border: 1px solid var(--ez-border-default);
+  border-radius: var(--ez-radius-lg);
+}
+
+/* --- 색 스케일 --- */
+.ramp { display: grid; grid-template-columns: repeat(auto-fit, minmax(72px, 1fr)); gap: 2px; margin-bottom: var(--ez-space-5); }
+.ramp__name {
+  grid-column: 1 / -1;
+  margin-bottom: var(--ez-space-1);
+  font-family: var(--ez-font-family-mono);
+  font-size: var(--ez-font-size-2xs);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--ez-text-muted);
+}
+.sw { display: flex; flex-direction: column; }
+.sw__chip { height: 52px; border-radius: var(--ez-radius-sm); }
+.sw__meta { padding: var(--ez-space-1) 2px 0; font-family: var(--ez-font-family-mono); font-size: 10px; line-height: 1.45; }
+.sw__step { font-weight: 600; color: var(--ez-text-default); }
+.sw__hex { color: var(--ez-text-muted); text-transform: uppercase; }
+.sw__cr { color: var(--ez-text-muted); }
+.sw--key .sw__chip { box-shadow: inset 0 0 0 2px var(--ez-text-strong); }
+.sw--key .sw__step::after { content: ' ●'; color: var(--ez-text-brand); }
+
+/* --- 토큰 표 --- */
+.tbl { width: 100%; border-collapse: collapse; font-size: var(--ez-font-size-xs); }
+.tbl th, .tbl td { padding: var(--ez-space-2) var(--ez-space-3); text-align: left; border-bottom: 1px solid var(--ez-border-subtle); vertical-align: middle; }
+.tbl th { font-weight: 500; color: var(--ez-text-muted); white-space: nowrap; }
+.tbl tr:last-child td { border-bottom: none; }
+.scroll-x { overflow-x: auto; }
+
+.tok { color: var(--ez-text-brand); white-space: nowrap; }
+.dot { display: inline-block; width: 14px; height: 14px; border-radius: 3px; border: 1px solid var(--ez-border-default); vertical-align: -2px; margin-right: 6px; }
+
+.cr {
+  display: inline-block;
+  min-width: 68px;
+  padding: 1px 6px;
+  border: 1px solid;
+  border-radius: var(--ez-radius-sm);
+  font-family: var(--ez-font-family-mono);
+  font-size: 10px;
+  font-weight: 600;
+  text-align: center;
+}
+.cr--pass { color: var(--ez-status-success-fg); background: var(--ez-status-success-bg); border-color: var(--ez-status-success-bd); }
+.cr--large { color: var(--ez-status-warning-fg); background: var(--ez-status-warning-bg); border-color: var(--ez-status-warning-bd); }
+.cr--fail { color: var(--ez-status-danger-fg); background: var(--ez-status-danger-bg); border-color: var(--ez-status-danger-bd); }
+
+/* --- 타이포 --- */
+.type-row { display: flex; align-items: baseline; gap: var(--ez-space-4); padding: var(--ez-space-2) 0; border-bottom: 1px solid var(--ez-border-subtle); }
+.type-row:last-child { border-bottom: none; }
+.type-row__tok { flex: 0 0 150px; font-family: var(--ez-font-family-mono); font-size: var(--ez-font-size-2xs); color: var(--ez-text-muted); }
+.type-row__demo { color: var(--ez-text-strong); }
+
+/* --- 치수 --- */
+.metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: var(--ez-space-4); }
+.metric__bar { height: 14px; background: var(--ez-action-primary); border-radius: 3px; }
+.metric__tok { margin-top: var(--ez-space-1); font-family: var(--ez-font-family-mono); font-size: var(--ez-font-size-2xs); color: var(--ez-text-muted); }
+.radii { display: flex; flex-wrap: wrap; gap: var(--ez-space-4); }
+.radii__box { width: 78px; height: 56px; display: grid; place-items: end center; padding-bottom: 4px; background: var(--ez-surface-sunken); border: 1px solid var(--ez-border-default); font-family: var(--ez-font-family-mono); font-size: 10px; color: var(--ez-text-muted); }
+.shadows { display: flex; flex-wrap: wrap; gap: var(--ez-space-5); }
+.shadows__box { width: 130px; height: 64px; display: grid; place-items: center; background: var(--ez-surface-default); border-radius: var(--ez-radius-lg); font-family: var(--ez-font-family-mono); font-size: 10px; color: var(--ez-text-muted); }
+
+/* --- 데모 --- */
+.demo { display: flex; flex-wrap: wrap; align-items: center; gap: var(--ez-space-3); }
+.demo + .demo { margin-top: var(--ez-space-3); }
+.note { margin-top: var(--ez-space-3); font-size: var(--ez-font-size-2xs); color: var(--ez-text-muted); max-width: 68ch; }
+
+/* ===========================================================================
+ * 컴포넌트 — starter/src/shared/ui/*.vue 의 스타일 사본
+ * ======================================================================== */
+.ez-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: var(--ez-space-2);
+  padding: 0 var(--ez-space-4); height: var(--ez-size-md);
+  border: 1px solid transparent; border-radius: var(--ez-radius-md);
+  font-family: inherit; font-size: var(--ez-font-size-sm); font-weight: var(--ez-font-weight-medium);
+  line-height: 1; white-space: nowrap; cursor: pointer;
+  transition: background-color var(--ez-duration-fast) var(--ez-easing-standard),
+              border-color var(--ez-duration-fast) var(--ez-easing-standard);
+}
+.ez-btn--sm { height: var(--ez-size-sm); padding: 0 var(--ez-space-3); font-size: var(--ez-font-size-xs); }
+.ez-btn--lg { height: var(--ez-size-lg); padding: 0 var(--ez-space-5); font-size: var(--ez-font-size-md); }
+.ez-btn--primary { background: var(--ez-action-primary); color: var(--ez-action-primary-on); }
+.ez-btn--primary:hover:not(:disabled) { background: var(--ez-action-primary-hover); }
+.ez-btn--secondary { background: var(--ez-action-secondary); color: var(--ez-action-secondary-on); border-color: var(--ez-action-secondary-border); }
+.ez-btn--secondary:hover:not(:disabled) { background: var(--ez-action-secondary-hover); }
+.ez-btn--ghost { background: transparent; color: var(--ez-text-default); }
+.ez-btn--ghost:hover:not(:disabled) { background: var(--ez-surface-hover); }
+.ez-btn--danger { background: var(--ez-action-danger); color: var(--ez-action-danger-on); }
+.ez-btn--danger:hover:not(:disabled) { background: var(--ez-action-danger-hover); }
+.ez-btn:disabled { background: var(--ez-action-disabled); color: var(--ez-action-disabled-on); border-color: transparent; cursor: not-allowed; }
+.ez-btn__spinner {
+  width: 1em; height: 1em; border: 2px solid currentColor; border-right-color: transparent;
+  border-radius: var(--ez-radius-full); animation: ez-spin 600ms linear infinite;
+}
+@keyframes ez-spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) {
+  .ez-btn__spinner { animation: ez-blink 1.2s steps(2, start) infinite; }
+  @keyframes ez-blink { 50% { opacity: .3; } }
+}
+
+.ez-badge {
+  display: inline-flex; align-items: center; gap: var(--ez-space-1);
+  padding: 2px var(--ez-space-2); border: 1px solid; border-radius: var(--ez-radius-sm);
+  font-size: var(--ez-font-size-2xs); font-weight: var(--ez-font-weight-medium);
+  line-height: var(--ez-line-height-tight); white-space: nowrap;
+}
+.ez-badge__dot { width: 5px; height: 5px; border-radius: var(--ez-radius-full); background: currentColor; }
+.ez-badge--neutral { color: var(--ez-status-neutral-fg); background: var(--ez-status-neutral-bg); border-color: var(--ez-status-neutral-bd); }
+.ez-badge--brand   { color: var(--ez-status-brand-fg);   background: var(--ez-status-brand-bg);   border-color: var(--ez-status-brand-bd); }
+.ez-badge--info    { color: var(--ez-status-info-fg);    background: var(--ez-status-info-bg);    border-color: var(--ez-status-info-bd); }
+.ez-badge--success { color: var(--ez-status-success-fg); background: var(--ez-status-success-bg); border-color: var(--ez-status-success-bd); }
+.ez-badge--warning { color: var(--ez-status-warning-fg); background: var(--ez-status-warning-bg); border-color: var(--ez-status-warning-bd); }
+.ez-badge--danger  { color: var(--ez-status-danger-fg);  background: var(--ez-status-danger-bg);  border-color: var(--ez-status-danger-bd); }
+
+.ez-field { display: flex; flex-direction: column; gap: var(--ez-space-1); min-width: 190px; }
+.ez-field__label { font-size: var(--ez-font-size-xs); font-weight: var(--ez-font-weight-medium); color: var(--ez-text-default); }
+.ez-field__required { color: var(--ez-text-danger); margin-left: 2px; }
+.ez-field__help { font-size: var(--ez-font-size-2xs); color: var(--ez-text-muted); }
+.ez-field__error { font-size: var(--ez-font-size-2xs); color: var(--ez-text-danger); }
+
+.ez-input, .ez-select {
+  width: 100%; height: var(--ez-size-md); padding: 0 var(--ez-space-3);
+  background: var(--ez-field-bg); color: var(--ez-text-default);
+  border: 1px solid var(--ez-field-border); border-radius: var(--ez-radius-md);
+  font-family: inherit; font-size: var(--ez-font-size-sm);
+}
+.ez-input::placeholder { color: var(--ez-field-placeholder); }
+.ez-input[readonly] { background: var(--ez-field-bg-readonly); color: var(--ez-text-muted); }
+.ez-input:disabled, .ez-select:disabled { background: var(--ez-field-bg-disabled); color: var(--ez-text-disabled); cursor: not-allowed; }
+.ez-input--invalid { border-color: var(--ez-border-danger); }
+.ez-select {
+  appearance: none; padding-right: var(--ez-space-8);
+  background-image: var(--ez-select-chevron); background-repeat: no-repeat;
+  background-position: right var(--ez-space-3) center;
+}
+
+.ez-check { display: inline-flex; align-items: center; gap: var(--ez-space-2); cursor: pointer; font-size: var(--ez-font-size-sm); }
+.ez-check input { width: 16px; height: 16px; margin: 0; accent-color: var(--ez-action-primary); }
+
+.ez-table-wrap { border: 1px solid var(--ez-border-default); border-radius: var(--ez-radius-lg); background: var(--ez-surface-default); overflow: auto; }
+.ez-table { width: 100%; border-collapse: collapse; font-size: var(--ez-font-size-xs); }
+.ez-table th, .ez-table td { padding: var(--ez-space-2) var(--ez-space-3); border-bottom: 1px solid var(--ez-border-subtle); line-height: var(--ez-line-height-tight); text-align: left; }
+.ez-table th { background: var(--ez-surface-sunken); color: var(--ez-text-muted); font-weight: var(--ez-font-weight-medium); white-space: nowrap; }
+.ez-table td.num { text-align: right; font-variant-numeric: tabular-nums; }
+.ez-table td.mid { text-align: center; }
+.ez-table tbody tr:last-child td { border-bottom: none; }
+.ez-table tbody tr:hover { background: var(--ez-surface-hover); }
+.ez-table__row--selected { background: var(--ez-surface-selected); }
+.ez-table__row--selected td:first-child { box-shadow: inset 3px 0 0 var(--ez-action-primary); }
+
+.ez-pager { display: flex; align-items: center; justify-content: center; gap: var(--ez-space-1); padding: var(--ez-space-3) 0; }
+.ez-pager__btn, .ez-pager__num {
+  min-width: var(--ez-size-sm); height: var(--ez-size-sm); padding: 0 var(--ez-space-2);
+  border: 1px solid var(--ez-border-default); border-radius: var(--ez-radius-sm);
+  background: var(--ez-surface-default); color: var(--ez-text-default);
+  font-family: inherit; font-size: var(--ez-font-size-xs); cursor: pointer;
+}
+.ez-pager__num--on { background: var(--ez-action-primary); border-color: var(--ez-action-primary); color: var(--ez-action-primary-on); font-weight: 700; }
+
+.ez-sfb { padding: var(--ez-space-3) var(--ez-space-4); background: var(--ez-surface-default); border: 1px solid var(--ez-border-default); border-radius: var(--ez-radius-lg); }
+.ez-sfb__row { display: flex; align-items: flex-end; justify-content: space-between; gap: var(--ez-space-4); flex-wrap: wrap; }
+.ez-sfb__fields { display: flex; flex-wrap: wrap; align-items: flex-end; gap: var(--ez-space-3); flex: 1; }
+.ez-sfb__actions { display: flex; align-items: center; gap: var(--ez-space-2); }
+.ez-sfb__more { display: inline-flex; align-items: center; gap: var(--ez-space-1); height: var(--ez-size-md); padding: 0 var(--ez-space-2); border: none; background: none; font-family: inherit; font-size: var(--ez-font-size-xs); color: var(--ez-text-muted); cursor: pointer; }
+.ez-sfb__chev { transition: transform var(--ez-duration-fast) var(--ez-easing-standard); }
+.ez-sfb__chev--open { transform: rotate(180deg); }
+.ez-sfb__advanced { display: flex; flex-wrap: wrap; gap: var(--ez-space-3); margin-top: var(--ez-space-3); padding-top: var(--ez-space-3); border-top: 1px dashed var(--ez-border-subtle); }
+
+.ez-empty { display: flex; flex-direction: column; align-items: center; gap: var(--ez-space-2); padding: var(--ez-space-10) var(--ez-space-4); text-align: center; }
+.ez-empty__title { font-size: var(--ez-font-size-sm); color: var(--ez-text-muted); margin: 0; }
+
+.ez-toast { display: flex; align-items: center; gap: var(--ez-space-3); min-width: 240px; padding: var(--ez-space-3) var(--ez-space-4); border: 1px solid; border-radius: var(--ez-radius-md); box-shadow: var(--ez-shadow-overlay); font-size: var(--ez-font-size-xs); }
+.ez-toast--info    { color: var(--ez-status-info-fg);    background: var(--ez-status-info-bg);    border-color: var(--ez-status-info-bd); }
+.ez-toast--success { color: var(--ez-status-success-fg); background: var(--ez-status-success-bg); border-color: var(--ez-status-success-bd); }
+.ez-toast--warning { color: var(--ez-status-warning-fg); background: var(--ez-status-warning-bg); border-color: var(--ez-status-warning-bd); }
+.ez-toast--danger  { color: var(--ez-status-danger-fg);  background: var(--ez-status-danger-bg);  border-color: var(--ez-status-danger-bd); }
+
+/* 모달·패널 데모는 실제로 띄운다 */
+.ez-modal-scrim { position: fixed; inset: 0; z-index: var(--ez-z-modal); display: grid; place-items: center; padding: var(--ez-space-6); background: var(--ez-surface-scrim); }
+.ez-modal { display: flex; flex-direction: column; width: 520px; max-width: 100%; max-height: 85vh; background: var(--ez-surface-raised); border-radius: var(--ez-radius-lg); box-shadow: var(--ez-shadow-modal); }
+.ez-modal__head, .ez-panel__head { display: flex; align-items: center; justify-content: space-between; gap: var(--ez-space-4); padding: var(--ez-space-4) var(--ez-space-5); border-bottom: 1px solid var(--ez-border-subtle); }
+.ez-modal__title, .ez-panel__title { margin: 0; font-size: var(--ez-font-size-md); font-weight: 700; color: var(--ez-text-strong); }
+.ez-modal__body, .ez-panel__body { flex: 1; padding: var(--ez-space-5); overflow: auto; }
+.ez-modal__foot, .ez-panel__foot { display: flex; justify-content: flex-end; gap: var(--ez-space-2); padding: var(--ez-space-4) var(--ez-space-5); border-top: 1px solid var(--ez-border-subtle); }
+.ez-x { width: var(--ez-size-sm); height: var(--ez-size-sm); border: none; background: none; border-radius: var(--ez-radius-sm); color: var(--ez-icon-default); font: inherit; cursor: pointer; }
+.ez-x:hover { background: var(--ez-surface-hover); }
+.ez-panel { position: fixed; top: 0; right: 0; bottom: 0; z-index: var(--ez-z-panel); display: flex; flex-direction: column; width: 420px; max-width: 92vw; background: var(--ez-surface-raised); border-left: 1px solid var(--ez-border-default); box-shadow: var(--ez-shadow-modal); }
+
+.checklist { margin: 0; padding: 0; list-style: none; display: grid; gap: var(--ez-space-2); }
+.checklist li { display: grid; grid-template-columns: 18px 1fr; gap: var(--ez-space-2); font-size: var(--ez-font-size-xs); }
+.checklist span { color: var(--ez-text-brand); font-weight: 700; }
+
+@media (max-width: 860px) {
+  .wrap { grid-template-columns: minmax(0, 1fr); gap: var(--ez-space-5); }
+  .toc { position: static; flex-direction: row; flex-wrap: wrap; }
+  .type-row { flex-direction: column; gap: 0; align-items: flex-start; }
+  .type-row__tok { flex: none; }
+}
+</style>
+
+<header class="bar">
+  <div class="bar__brand">
+    <span class="bar__mark">EZ / v1</span>
+    <span class="bar__title">UI 파운데이션</span>
+  </div>
+
+  <div class="ctl">
+    <span class="ctl__lab" id="lab-theme">테마</span>
+    <div class="seg" role="group" aria-labelledby="lab-theme">
+      <button type="button" data-theme-set="light" aria-pressed="true">라이트</button>
+      <button type="button" data-theme-set="dark" aria-pressed="false">다크</button>
+    </div>
+  </div>
+
+  <div class="ctl">
+    <span class="ctl__lab" id="lab-contrast">선명한 화면</span>
+    <div class="seg" role="group" aria-labelledby="lab-contrast">
+      <button type="button" data-contrast-set="" aria-pressed="true">기본</button>
+      <button type="button" data-contrast-set="high" aria-pressed="false">고대비</button>
+    </div>
+  </div>
+
+  <div class="ctl">
+    <span class="ctl__lab" id="lab-scale">글자</span>
+    <div class="seg" role="group" aria-labelledby="lab-scale">
+      <button type="button" data-scale-set="1" aria-pressed="true">1</button>
+      <button type="button" data-scale-set="2" aria-pressed="false">2</button>
+      <button type="button" data-scale-set="3" aria-pressed="false">3</button>
+      <button type="button" data-scale-set="4" aria-pressed="false">4</button>
+      <button type="button" data-scale-set="5" aria-pressed="false">5</button>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <nav class="toc" aria-label="목차">
+    <a href="#color">색</a>
+    <a href="#semantic">역할 토큰</a>
+    <a href="#type">타이포</a>
+    <a href="#metrics">치수</a>
+    <a href="#components">컴포넌트</a>
+    <a href="#patterns">패턴</a>
+    <a href="#a11y">접근성</a>
+  </nav>
+
+  <main>
+    <section id="color">
+      <h2>색</h2>
+      <p class="lede">
+        step 번호가 곧 <strong>흰 배경 대비비</strong>다. 40이 3:1, 50이 4.5:1, 70이 7:1, 90이 15:1.
+        아래 칩의 대비 수치는 <strong>지금 화면에 적용된 면 색 기준으로 즉석 계산</strong>한 값이다 —
+        위 스위치를 다크나 고대비로 바꾸면 숫자가 따라 바뀐다.
+      </p>
+      <div class="card" id="ramps"></div>
+      <p class="note">
+        ● 표시는 약속이 걸린 단계(40 / 50 / 70 / 90)다. 값은 HSL 이분탐색으로 목표 상대휘도를
+        맞춰 생성했고 WCAG 공식으로 재검증했다 — 한 단계만 임의로 손보면 약속이 깨진다.
+      </p>
+    </section>
+
+    <section id="semantic">
+      <h2>역할 토큰</h2>
+      <p class="lede">
+        화면 CSS가 참조하는 유일한 층. primitive(<code>--ez-color-*</code>)를 화면에서 직접 쓰면
+        역할이 사라지고 대비 보장도 깨진다.
+      </p>
+      <div class="card scroll-x">
+        <table class="tbl" id="semantic-table">
+          <thead>
+            <tr><th>토큰</th><th>값</th><th>면 대비</th><th>쓰는 곳</th></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <p class="note">
+        <code>--ez-text-disabled</code>와 <code>--ez-border-default</code>는 대비가 낮다. 전자는 비활성
+        요소라 WCAG 예외이고 후자는 장식이다 — <strong>경계선만으로 정보를 전달하지 않는다.</strong>
+      </p>
+    </section>
+
+    <section id="type">
+      <h2>타이포</h2>
+      <p class="lede">
+        본문 13px. 굵기는 400 / 500 / 700 세 종뿐이다 — 500은 UI 라벨(버튼·탭·표 헤더)에만 쓴다.
+        줄간격 하한은 150%.
+      </p>
+      <div class="card" id="type-rows"></div>
+      <p class="note">
+        전 단계가 <code>calc(Npx + var(--ez-font-size-offset))</code>이라 상단 「글자」 스위치 하나로
+        같이 커진다. KRDS 본문 하한 17px은 대국민 서비스 기준이라 따르지 않았다 — 업무 화면의
+        정보밀도와 상충한다.
+      </p>
+    </section>
+
+    <section id="metrics">
+      <h2>치수</h2>
+
+      <h3>간격 — 4px 배수만</h3>
+      <div class="card metrics" id="spaces"></div>
+
+      <h3>높이 — 3종 고정</h3>
+      <div class="card demo">
+        <button class="ez-btn ez-btn--secondary ez-btn--sm">sm · 28</button>
+        <button class="ez-btn ez-btn--secondary">md · 34</button>
+        <button class="ez-btn ez-btn--secondary ez-btn--lg">lg · 40</button>
+      </div>
+      <p class="note">줄에 놓인 컨트롤 높이가 서로 다르면 눈이 먼저 알아챈다. 셋 밖으로 나가지 않는다.</p>
+
+      <h3>모서리 · 그림자</h3>
+      <div class="card">
+        <div class="radii">
+          <div class="radii__box" style="border-radius: var(--ez-radius-sm)">sm 4</div>
+          <div class="radii__box" style="border-radius: var(--ez-radius-md)">md 8</div>
+          <div class="radii__box" style="border-radius: var(--ez-radius-lg)">lg 12</div>
+          <div class="radii__box" style="border-radius: var(--ez-radius-full)">full</div>
+        </div>
+        <div class="shadows" style="margin-top: var(--ez-space-6)">
+          <div class="shadows__box" style="box-shadow: var(--ez-shadow-raised)">raised</div>
+          <div class="shadows__box" style="box-shadow: var(--ez-shadow-overlay)">overlay</div>
+          <div class="shadows__box" style="box-shadow: var(--ez-shadow-modal)">modal</div>
+        </div>
+      </div>
+      <p class="note">
+        radius는 역할로 쓴다 — sm 뱃지·체크박스, md 입력·버튼, lg 카드·패널·모달.
+        그림자는 겹침 층수와 같다.
+      </p>
+    </section>
+
+    <section id="components">
+      <h2>컴포넌트</h2>
+      <p class="lede">
+        <code>starter/src/shared/ui/</code>의 Vue 컴포넌트와 같은 마크업·같은 토큰이다.
+        실제로 눌러 볼 수 있다.
+      </p>
+
+      <h3>버튼</h3>
+      <div class="card">
+        <div class="demo">
+          <button class="ez-btn ez-btn--primary">저장</button>
+          <button class="ez-btn ez-btn--secondary">취소</button>
+          <button class="ez-btn ez-btn--ghost">더 보기</button>
+          <button class="ez-btn ez-btn--danger">삭제</button>
+          <button class="ez-btn ez-btn--secondary" disabled>비활성</button>
+          <button class="ez-btn ez-btn--primary" disabled><span class="ez-btn__spinner"></span>저장 중</button>
+        </div>
+        <p class="note">
+          한 화면에 <code>primary</code>는 하나다. <code>loading</code>은 자동으로 비활성이라
+          저장 중복 클릭 방지를 호출부가 또 걸 필요가 없다.
+        </p>
+      </div>
+
+      <h3>상태 뱃지</h3>
+      <div class="card">
+        <div class="demo">
+          <span class="ez-badge ez-badge--neutral">대기</span>
+          <span class="ez-badge ez-badge--brand">확정</span>
+          <span class="ez-badge ez-badge--info"><span class="ez-badge__dot"></span>진행</span>
+          <span class="ez-badge ez-badge--success">완료</span>
+          <span class="ez-badge ez-badge--warning">검토</span>
+          <span class="ez-badge ez-badge--danger">지연</span>
+        </div>
+        <p class="note">
+          fg / bg / bd 3종을 한 덩어리로 가져온다 — 하나만 떼어 쓰면 대비가 깨진다.
+          h-pms 구 팔레트의 <code>--green</code> on <code>--green-bg</code>가 2.18:1이었다.
+          <strong>업무 상태값 → tone 매핑은 공통코드에서 내려받는다.</strong>
+        </p>
+      </div>
+
+      <h3>입력</h3>
+      <div class="card">
+        <div class="demo" style="align-items: flex-start">
+          <div class="ez-field">
+            <label class="ez-field__label" for="f1">프로젝트명<span class="ez-field__required">*</span></label>
+            <input class="ez-input" id="f1" value="차기 통합 포털 구축">
+            <p class="ez-field__help">최대 50자</p>
+          </div>
+          <div class="ez-field">
+            <label class="ez-field__label" for="f2">처리단계</label>
+            <select class="ez-select" id="f2">
+              <option>요구사항 분석</option><option>설계</option><option>개발</option>
+            </select>
+          </div>
+          <div class="ez-field">
+            <label class="ez-field__label" for="f3">JIRA 번호<span class="ez-field__required">*</span></label>
+            <input class="ez-input ez-input--invalid" id="f3" value="PMS-0" aria-describedby="f3e" aria-invalid="true">
+            <p class="ez-field__error" id="f3e">이미 등록된 번호입니다</p>
+          </div>
+          <div class="ez-field">
+            <label class="ez-field__label" for="f4">요청부서</label>
+            <input class="ez-input" id="f4" value="디지털플랫폼실" readonly>
+            <p class="ez-field__help">JIRA 연계 · 수정 불가</p>
+          </div>
+        </div>
+        <div class="demo" style="margin-top: var(--ez-space-4)">
+          <label class="ez-check"><input type="checkbox" checked> 종료일 없음</label>
+          <label class="ez-check"><input type="radio" name="r" checked> 통합</label>
+          <label class="ez-check"><input type="radio" name="r"> 개별</label>
+        </div>
+        <p class="note">
+          오류는 <strong>색만으로 표시하지 않는다</strong> — 빨간 테두리 + 하단 문구 +
+          <code>aria-describedby</code>가 한 세트다. 읽기전용 필드는 <code>disabled</code>가 아니라
+          <code>readonly</code>다(값이 의미 있고 복사·포커스가 된다).
+        </p>
+      </div>
+
+      <h3>조회 영역</h3>
+      <div class="ez-sfb">
+        <div class="ez-sfb__row">
+          <div class="ez-sfb__fields">
+            <div class="ez-field" style="min-width: 230px">
+              <label class="ez-field__label" for="s1">프로젝트명</label>
+              <input class="ez-input" id="s1" placeholder="검색어를 입력하세요">
+            </div>
+            <div class="ez-field" style="min-width: 150px">
+              <label class="ez-field__label" for="s2">진행상태</label>
+              <select class="ez-select" id="s2"><option>전체</option><option>진행</option><option>완료</option></select>
+            </div>
+          </div>
+          <div class="ez-sfb__actions">
+            <button class="ez-sfb__more" type="button" id="more-btn" aria-expanded="false" aria-controls="adv">
+              상세검색 <span class="ez-sfb__chev" id="more-chev" aria-hidden="true">⌄</span>
+            </button>
+            <button class="ez-btn ez-btn--secondary" type="button">초기화</button>
+            <button class="ez-btn ez-btn--primary" type="button">조회</button>
+          </div>
+        </div>
+        <div class="ez-sfb__advanced" id="adv" hidden>
+          <div class="ez-field" style="min-width: 150px">
+            <label class="ez-field__label" for="s3">담당자</label>
+            <input class="ez-input" id="s3" placeholder="이름 1자 이상">
+          </div>
+          <div class="ez-field" style="min-width: 150px">
+            <label class="ez-field__label" for="s4">오픈예정일</label>
+            <input class="ez-input" id="s4" type="date">
+          </div>
+        </div>
+      </div>
+      <p class="note">
+        Enter 조회는 <code>&lt;form&gt;</code> 기본 동작에 맡기고 F2만 따로 듣는다.
+        상세검색은 <code>v-show</code>로 접는다 — <strong>접어도 조건 값이 살아 있어야 한다.</strong>
+      </p>
+
+      <h3>목록</h3>
+      <div class="ez-table-wrap">
+        <table class="ez-table">
+          <caption class="ez-sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">요구사항 목록 예시</caption>
+          <thead>
+            <tr><th>요구사항 ID</th><th>요구사항명</th><th style="text-align:center">상태</th><th style="text-align:right">진척률</th><th>담당자</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>REQ-0142</td><td>프로젝트 등록 시 JIRA 번호 중복 검증</td><td class="mid"><span class="ez-badge ez-badge--success">완료</span></td><td class="num">100%</td><td>성찬민</td></tr>
+            <tr class="ez-table__row--selected"><td>REQ-0143</td><td>WBS 일정 변경 이력 조회</td><td class="mid"><span class="ez-badge ez-badge--info">진행</span></td><td class="num">62%</td><td>류상오</td></tr>
+            <tr><td>REQ-0144</td><td>DEV 테스트 케이스 자동 생성</td><td class="mid"><span class="ez-badge ez-badge--warning">검토</span></td><td class="num">40%</td><td>강병헌</td></tr>
+            <tr><td>REQ-0145</td><td>결함 조치확인 반려 사유 필수화</td><td class="mid"><span class="ez-badge ez-badge--danger">지연</span></td><td class="num">8%</td><td>강병헌</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <nav class="ez-pager" aria-label="페이지 이동">
+        <button class="ez-pager__btn" type="button">이전</button>
+        <button class="ez-pager__num" type="button">21</button>
+        <button class="ez-pager__num" type="button">22</button>
+        <button class="ez-pager__num ez-pager__num--on" type="button" aria-current="page">23</button>
+        <button class="ez-pager__num" type="button">24</button>
+        <button class="ez-pager__num" type="button">25</button>
+        <button class="ez-pager__btn" type="button">다음</button>
+      </nav>
+      <p class="note">
+        정렬 축은 <code>type</code>이 정한다 — 문자 좌, 숫자 우(<code>tabular-nums</code>), 상태 중앙.
+        선택 행은 배경 + 좌측 막대 두 가지로 표시한다. <strong>배경색만으로는 대비 1.1:1이라 안 보인다.</strong>
+      </p>
+
+      <h3>팝업</h3>
+      <div class="card demo">
+        <button class="ez-btn ez-btn--secondary" type="button" id="open-modal">레이어 팝업 열기</button>
+        <button class="ez-btn ez-btn--secondary" type="button" id="open-panel">사이드 패널 열기</button>
+      </div>
+      <p class="note">
+        둘 다 배경 클릭으로 닫히지 않는다 — 입력 중 오클릭으로 작성분이 날아간다.
+        Esc와 닫기 버튼 둘뿐이고, 겹쳐 열려도 Esc는 가장 위 하나만 닫는다.
+      </p>
+
+      <h3>피드백</h3>
+      <div class="card">
+        <div class="demo" style="flex-direction: column; align-items: stretch">
+          <div class="ez-toast ez-toast--success">저장했습니다</div>
+          <div class="ez-toast ez-toast--warning">중복 3건은 등록하지 않았습니다</div>
+          <div class="ez-toast ez-toast--danger">REQUIREMENT_LOCKED: 다른 사용자가 편집 중입니다</div>
+        </div>
+        <div class="ez-empty" style="border-top: 1px solid var(--ez-border-subtle); margin-top: var(--ez-space-4)">
+          <p class="ez-empty__title">조회 결과가 없습니다.</p>
+        </div>
+        <p class="note">
+          노출 시간이 tone별로 다르다(info·success 3초 / warning 5초 / danger 6초).
+          <code>aria-live="polite"</code>다 — assertive는 입력 중 낭독을 끊어 폼 작성을 방해한다.
+        </p>
+      </div>
+    </section>
+
+    <section id="patterns">
+      <h2>패턴</h2>
+      <p class="lede">h-pms에서 실전 검증된 규칙을 승계했다. 전체는 <code>docs/04-patterns.md</code>.</p>
+      <div class="card scroll-x">
+        <table class="tbl">
+          <thead><tr><th>주제</th><th>규칙</th><th>왜</th></tr></thead>
+          <tbody>
+            <tr><td>로딩</td><td>1초 미만 미표시 · 1~3초 스피너</td><td>순식간에 떴다 사라지면 깜빡임으로 읽힌다</td></tr>
+            <tr><td>페이지 크기</td><td>20 / 50 / 100, 기본 20</td><td>—</td></tr>
+            <tr><td>컬럼 정렬</td><td>제공하지 않는다</td><td>서버 정렬 확정 전엔 페이징과 어긋난다</td></tr>
+            <tr><td>자동완성</td><td>1자 이상 · debounce 300ms · 이전 요청 취소</td><td>늦게 온 응답이 최신 결과를 덮는다</td></tr>
+            <tr><td>엑셀 업로드</td><td>전건 검증 후 일괄 등록, 부분 저장 없음</td><td>어디까지 들어갔는지 사용자가 알 수 없다</td></tr>
+            <tr><td>조회 실패</td><td>인라인 배너 (토스트 아님)</td><td>사라지면 왜 비었는지 알 수 없다</td></tr>
+            <tr><td>세션 만료</td><td>모달 (토스트 아님)</td><td>토스트는 놓친다</td></tr>
+            <tr><td>상태값</td><td>공통코드에서 라벨·tone을 내려받는다</td><td>도메인마다 세트가 다르고, 라벨 변경에 배포가 필요해진다</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="a11y">
+      <h2>접근성</h2>
+      <p class="lede">
+        목표는 WCAG 2.1 AA. 대부분은 토큰과 컴포넌트가 처리한다. 사람이 챙길 것만 남겼다.
+      </p>
+      <div class="card">
+        <ul class="checklist">
+          <li><span>✓</span> 마우스를 치우고 Tab만으로 끝까지 조작된다</li>
+          <li><span>✓</span> 포커스가 어디 있는지 항상 보인다 (<code>outline: none</code>을 쓰지 않았다)</li>
+          <li><span>✓</span> 모달에서 Tab이 뒤로 새지 않고, 닫으면 원래 자리로 돌아온다</li>
+          <li><span>✓</span> 아이콘만 있는 버튼에 <code>aria-label</code>이 있다</li>
+          <li><span>✓</span> 오류가 색 외 단서(문구)와 함께 전달된다</li>
+          <li><span>✓</span> 브라우저 200% 확대에서 가로 스크롤이 두 방향으로 나지 않는다</li>
+          <li><span>✓</span> 위 「선명한 화면」 스위치를 켜도 읽힌다</li>
+          <li><span>✓</span> 색각 시뮬레이터로 적록색약을 확인했다</li>
+        </ul>
+        <p class="note">
+          자동 점검은 <code>npx @axe-core/cli &lt;url&gt;</code>. 라벨 누락·대비·ARIA 오용은 잡지만
+          포커스 순서·색 외 단서·의미 있는 대체 텍스트는 못 잡는다 — 실제 문제의 절반쯤이다.
+        </p>
+      </div>
+    </section>
+  </main>
+</div>
+
+<div id="modal-root"></div>
+<div id="panel-root"></div>
+
+<script>
+'use strict'
+
+/* ---------- 대비 계산 — 표시되는 수치는 전부 여기서 나온다 ---------- */
+function toRgb(css) {
+  const s = (css || '').trim()
+  const m = s.match(/^#?([0-9a-f]{6})$/i)
+  if (m) {
+    const n = parseInt(m[1], 16)
+    return [(n >> 16) & 255, (n >> 8) & 255, n & 255]
+  }
+  const fn = s.match(/rgba?\(([^)]+)\)/i)
+  if (fn) return fn[1].split(/[,/\s]+/).slice(0, 3).map(Number)
+  return null
+}
+
+function luminance(rgb) {
+  const [r, g, b] = rgb.map((c) => {
+    const v = c / 255
+    return v <= 0.04045 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4)
+  })
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b
+}
+
+function contrast(a, b) {
+  const x = toRgb(a), y = toRgb(b)
+  if (!x || !y) return null
+  const la = luminance(x), lb = luminance(y)
+  return (Math.max(la, lb) + 0.05) / (Math.min(la, lb) + 0.05)
+}
+
+const css = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim()
+
+function crBadge(ratio, need) {
+  if (ratio === null) return '<span class="cr">—</span>'
+  const v = ratio.toFixed(2)
+  if (need === 3) {
+    const cls = ratio >= 3 ? 'cr--pass' : 'cr--fail'
+    return `<span class="cr ${cls}">${v}:1</span>`
+  }
+  const cls = ratio >= 4.5 ? 'cr--pass' : ratio >= 3 ? 'cr--large' : 'cr--fail'
+  return `<span class="cr ${cls}">${v}:1</span>`
+}
+
+/* ---------- 색 스케일 ---------- */
+const FAMILIES = [
+  ['gray', '면 · 글자 · 경계'],
+  ['primary', '브랜드 · 주요 액션'],
+  ['secondary', '보조 액션 · 링크'],
+  ['success', '성공'],
+  ['warning', '주의'],
+  ['danger', '오류'],
+]
+const STEPS = [5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 95]
+const KEY_STEPS = new Set([40, 50, 70, 90])
+
+function renderRamps() {
+  const surface = css('--ez-surface-default')
+  document.getElementById('ramps').innerHTML = FAMILIES.map(([fam, use]) => {
+    const chips = STEPS.map((step) => {
+      const hex = css(`--ez-color-${fam}-${step}`)
+      const ratio = contrast(hex, surface)
+      const key = KEY_STEPS.has(step) ? ' sw--key' : ''
+      return `<div class="sw${key}">
+        <div class="sw__chip" style="background:${hex}"></div>
+        <div class="sw__meta">
+          <div class="sw__step">${step}</div>
+          <div class="sw__hex">${hex}</div>
+          <div class="sw__cr">${ratio ? ratio.toFixed(1) + ':1' : ''}</div>
+        </div>
+      </div>`
+    }).join('')
+    return `<div class="ramp"><div class="ramp__name">${fam} — ${use}</div>${chips}</div>`
+  }).join('')
+}
+
+/* ---------- 역할 토큰 표 ---------- */
+const SEMANTIC = [
+  ['--ez-text-strong', 4.5, '제목 · 최대 강조'],
+  ['--ez-text-default', 4.5, '본문'],
+  ['--ez-text-muted', 4.5, '보조 텍스트 — 여기가 하한이다'],
+  ['--ez-text-disabled', 0, '비활성 (WCAG 예외)'],
+  ['--ez-text-brand', 4.5, '브랜드 텍스트 · 링크 강조'],
+  ['--ez-text-danger', 4.5, '오류 문구'],
+  ['--ez-text-link', 4.5, '링크'],
+  ['--ez-icon-default', 3, '아이콘'],
+  ['--ez-icon-muted', 3, '보조 아이콘'],
+  ['--ez-border-strong', 3, '정보를 나르는 경계선'],
+  ['--ez-border-default', 0, '장식 경계선'],
+  ['--ez-action-primary', 3, '주 버튼 면'],
+  ['--ez-field-border', 0, '입력 테두리'],
+  ['--ez-field-placeholder', 4.5, '플레이스홀더'],
+]
+
+function renderSemantic() {
+  const surface = css('--ez-surface-default')
+  document.querySelector('#semantic-table tbody').innerHTML = SEMANTIC.map(([tok, need, use]) => {
+    const val = css(tok)
+    const ratio = contrast(val, surface)
+    const cell = need === 0
+      ? `<span class="cr">${ratio ? ratio.toFixed(2) + ':1' : '—'}</span>`
+      : crBadge(ratio, need)
+    return `<tr>
+      <td><span class="tok">${tok}</span></td>
+      <td><span class="dot" style="background:${val}"></span><span class="mono">${val}</span></td>
+      <td>${cell}</td>
+      <td>${use}</td>
+    </tr>`
+  }).join('')
+}
+
+/* ---------- 타이포 · 간격 ---------- */
+const TYPE = [
+  ['--ez-font-size-2xl', 700, '페이지 타이틀'],
+  ['--ez-font-size-xl', 700, '섹션 제목'],
+  ['--ez-font-size-lg', 700, '카드 제목'],
+  ['--ez-font-size-md', 700, '모달 타이틀'],
+  ['--ez-font-size-sm', 400, '본문 — 프로젝트 진척이 지연되고 있습니다'],
+  ['--ez-font-size-xs', 400, '표 · 조회 조건'],
+  ['--ez-font-size-2xs', 500, '뱃지 · 메타'],
+]
+
+function renderType() {
+  document.getElementById('type-rows').innerHTML = TYPE.map(([tok, w, sample]) => {
+    const px = getComputedStyle(document.documentElement).getPropertyValue(tok).trim()
+    return `<div class="type-row">
+      <div class="type-row__tok">${tok.replace('--ez-font-size-', '')} · ${px} · ${w}</div>
+      <div class="type-row__demo" style="font-size:var(${tok});font-weight:${w}">${sample}</div>
+    </div>`
+  }).join('')
+}
+
+function renderSpaces() {
+  document.getElementById('spaces').innerHTML = [1, 2, 3, 4, 5, 6, 8, 10, 12].map((n) => `
+    <div>
+      <div class="metric__bar" style="width:var(--ez-space-${n})"></div>
+      <div class="metric__tok">space-${n} · ${n * 4}px</div>
+    </div>`).join('')
+}
+
+/* ---------- 테마 스위치 ---------- */
+function repaint() {
+  renderRamps()
+  renderSemantic()
+  renderType()
+}
+
+function bindSeg(attr, apply) {
+  document.querySelectorAll(`[${attr}]`).forEach((btn) => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll(`[${attr}]`).forEach((b) => b.setAttribute('aria-pressed', String(b === btn)))
+      apply(btn.getAttribute(attr))
+      repaint()
+    })
+  })
+}
+
+bindSeg('data-theme-set', (v) => { document.documentElement.dataset.theme = v })
+bindSeg('data-contrast-set', (v) => {
+  if (v) document.documentElement.dataset.contrast = v
+  else delete document.documentElement.dataset.contrast
+})
+bindSeg('data-scale-set', (v) => { document.documentElement.dataset.fontScale = v })
+
+/* ---------- 상세검색 접기 ---------- */
+const moreBtn = document.getElementById('more-btn')
+moreBtn.addEventListener('click', () => {
+  const adv = document.getElementById('adv')
+  const open = adv.hidden
+  adv.hidden = !open
+  moreBtn.setAttribute('aria-expanded', String(open))
+  document.getElementById('more-chev').classList.toggle('ez-sfb__chev--open', open)
+})
+
+/* ---------- 모달 · 패널 데모 (포커스 트랩 포함) ---------- */
+const FOCUSABLE = 'a[href],button:not([disabled]),input:not([disabled]),select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])'
+const layers = []
+
+function openLayer(root, html) {
+  const restore = document.activeElement
+  root.innerHTML = html
+  const box = root.querySelector('[data-layer]')
+  const close = () => {
+    root.innerHTML = ''
+    layers.splice(layers.indexOf(entry), 1)
+    if (restore && restore.focus) restore.focus()
+  }
+  const entry = { box, close }
+  layers.push(entry)
+  root.querySelectorAll('[data-close]').forEach((b) => b.addEventListener('click', close))
+  const first = box.querySelector(FOCUSABLE)
+  if (first) first.focus()
+}
+
+document.addEventListener('keydown', (e) => {
+  const top = layers[layers.length - 1]
+  if (!top) return
+  if (e.key === 'Escape') { e.preventDefault(); top.close(); return }
+  if (e.key !== 'Tab') return
+  const list = [...top.box.querySelectorAll(FOCUSABLE)]
+  if (!list.length) return
+  const first = list[0], last = list[list.length - 1]
+  if (e.shiftKey && (document.activeElement === first || !top.box.contains(document.activeElement))) {
+    e.preventDefault(); last.focus()
+  } else if (!e.shiftKey && document.activeElement === last) {
+    e.preventDefault(); first.focus()
+  }
+}, true)
+
+document.getElementById('open-modal').addEventListener('click', () => {
+  openLayer(document.getElementById('modal-root'), `
+    <div class="ez-modal-scrim">
+      <div class="ez-modal" data-layer role="dialog" aria-modal="true" aria-label="요구사항 삭제">
+        <header class="ez-modal__head">
+          <h2 class="ez-modal__title">요구사항 삭제</h2>
+          <button class="ez-x" type="button" aria-label="닫기" data-close>✕</button>
+        </header>
+        <div class="ez-modal__body">
+          <p>요구사항 3건을 삭제합니다. 되돌릴 수 없습니다.</p>
+          <p style="color:var(--ez-text-muted);font-size:var(--ez-font-size-xs);margin:0">
+            연결된 테스트 케이스 12건의 참조가 함께 끊어집니다.
+          </p>
+        </div>
+        <footer class="ez-modal__foot">
+          <button class="ez-btn ez-btn--secondary" type="button" data-close>취소</button>
+          <button class="ez-btn ez-btn--danger" type="button" data-close>삭제</button>
+        </footer>
+      </div>
+    </div>`)
+})
+
+document.getElementById('open-panel').addEventListener('click', () => {
+  openLayer(document.getElementById('panel-root'), `
+    <aside class="ez-panel" data-layer role="dialog" aria-modal="true" aria-label="요구사항 상세">
+      <header class="ez-panel__head">
+        <h2 class="ez-panel__title">REQ-0143 상세</h2>
+        <button class="ez-x" type="button" aria-label="닫기" data-close>✕</button>
+      </header>
+      <div class="ez-panel__body">
+        <div class="ez-field" style="margin-bottom:var(--ez-space-4)">
+          <label class="ez-field__label" for="p1">요구사항명</label>
+          <input class="ez-input" id="p1" value="WBS 일정 변경 이력 조회">
+        </div>
+        <div class="ez-field">
+          <label class="ez-field__label" for="p2">진행상태</label>
+          <select class="ez-select" id="p2"><option>진행</option><option>완료</option></select>
+        </div>
+      </div>
+      <footer class="ez-panel__foot">
+        <button class="ez-btn ez-btn--secondary" type="button" data-close>닫기</button>
+        <button class="ez-btn ez-btn--primary" type="button" data-close>저장</button>
+      </footer>
+    </aside>`)
+})
+
+/* ---------- 첫 렌더 ----------
+ * 뷰어 테마를 따라 시작한다. 스위치 표시와 실제 화면이 어긋나지 않게
+ * 시스템 다크면 `data-theme`을 찍고 버튼 상태도 맞춘다. */
+const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+const startTheme = prefersDark ? 'dark' : 'light'
+document.documentElement.dataset.theme = startTheme
+document.querySelectorAll('[data-theme-set]').forEach((b) => {
+  b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === startTheme))
+})
+
+renderSpaces()
+repaint()
+</script>
