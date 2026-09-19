@@ -35,7 +35,7 @@ features:
 패키지 하나에 토큰과 Vue 3 컴포넌트가 함께 들어 있다.
 
 ```bash
-npm i "git+https://github.com/HyundaiEzwel-AI-Dev-Lab/ez-design-system.git#v1.0.0"
+npm i "git+https://github.com/hyundaiezwel/ez-design-system.git#v1.0.0"
 ```
 
 ```ts

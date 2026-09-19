@@ -42,11 +42,24 @@ for (const sub of ['all.css', 'tokens.css', 'base.css', 'style.css']) {
   if (bytes === 0) throw new Error(sub + ' 가 비어 있다')
 }
 
-// step 40 앵커와 CTA가 step 50이라는 약속. 여기가 깨지면 대비 보장이 깨진 것이다
+// **값이 아니라 계약을 본다.** 처음엔 브랜드 원색 hex를 단언했는데 v1.1.0에서 그 값이
+// 스케일에서 빠지자 스모크가 깨졌다 — 값은 재생성으로 바뀌는 게 정상이고,
+// 바뀌면 안 되는 것은 구조다. 대비 자체는 check-contrast가 본다.
 const tokens = readFileSync(require.resolve('@ezwel/ui/tokens.css'), 'utf8')
-for (const t of ['--ez-color-primary-40: #009782', '--ez-action-primary: var(--ez-color-primary-50)']) {
-  if (!tokens.includes(t)) throw new Error('토큰 누락: ' + t)
+const CONTRACT = [
+  '--ez-action-primary: var(--ez-color-primary-50)', // CTA는 본문 대비 등급을 쓴다
+  '--ez-text-muted: var(--ez-color-gray-50)',        // 보조 텍스트 하한
+  '--ez-brand:',                                      // 브랜드 원색은 스케일 밖에 따로 있다
+  "--ez-surface-canvas",                              // 대비 기준면
+]
+for (const t of CONTRACT) {
+  if (!tokens.includes(t)) throw new Error('토큰 계약 누락: ' + t)
 }
+// 램프가 온전한가 — 계열 6종 × 11단.
+// 정규식을 안 쓴다: 이 문자열은 템플릿 리터럴 안에 들어가 파일로 쓰이는데,
+// 그때 \d 같은 이스케이프가 한 겹 벗겨져 패턴이 조용히 망가진다(실제로 0건이 나왔다).
+const steps = tokens.split('--ez-color-').length - 1
+if (steps < 66) throw new Error('색 단계 부족: ' + steps)
 
 const App = {
   setup: () => () => [

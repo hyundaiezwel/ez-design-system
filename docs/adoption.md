@@ -12,19 +12,19 @@
 git 의존성으로 당긴다. 사내 npm registry가 없어도 되고, 태그를 찍어 버전을 고정한다.
 
 ```bash
-npm i "git+https://github.com/HyundaiEzwel-AI-Dev-Lab/ez-design-system.git#v1.0.0"
+npm i "git+https://github.com/hyundaiezwel/ez-design-system.git#v1.0.0"
 ```
 
 `package.json`에는 이렇게 남는다.
 
 ```json
-{ "dependencies": { "@ezwel/ui": "github:HyundaiEzwel-AI-Dev-Lab/ez-design-system#v1.0.0" } }
+{ "dependencies": { "@ezwel/ui": "github:hyundaiezwel/ez-design-system#v1.0.0" } }
 ```
 
 npm이 GitHub URL을 `github:` 축약형으로 바꿔 적는다 — 같은 뜻이니 그대로 둔다.
 
 비공개 저장소라 인증이 필요하다. 로컬은 `gh auth login`의 credential helper가 처리하고,
-CI에서는 SSH 쪽이 편하다 — `git+ssh://git@github.com/HyundaiEzwel-AI-Dev-Lab/ez-design-system.git#v1.0.0`.
+CI에서는 SSH 쪽이 편하다 — `git+ssh://git@github.com/hyundaiezwel/ez-design-system.git#v1.0.0`.
 
 **`#v1.0.0`을 반드시 붙인다.** 안 붙이면 기본 브랜치를 당기고, 설치 시점마다 다른 코드가
 들어온다. 올릴 때는 태그만 바꾸고 `npm i`를 다시 돌린다.
@@ -84,7 +84,7 @@ Pretendard woff2만 self-host한다. **사내 admin처럼 9종 13.7MB를 전부 
 
 ### 1-4. 브랜드색 교체
 
-사내 표준(`#009782`)을 그대로 쓰면 할 일이 없다.
+기본 램프(사내 표준과 같은 초록 계열)를 그대로 쓰면 할 일이 없다. 로고처럼 큰 면적에 원색이 필요하면 `--ez-brand`를 쓴다.
 
 프로젝트 하나만 다른 색을 써야 하면 **소비 쪽에서 semantic 토큰을 덮는다** — 라이브러리를
 포크하지 않는다.
@@ -146,9 +146,9 @@ PR에서 볼 것은 넷이다.
 | `--lnb-txt` `#2b2f36` | `--ez-text-strong` | |
 | `--text-default` `#374151` | `--ez-text-default` | |
 | `--text-muted` `#5b6472` | `--ez-text-muted` | |
-| **`--lnb-muted`** `#9aa0a8` | `--ez-text-muted` | **2.64:1 → 4.48:1. 값이 바뀐다** |
-| `--text-weak` `#8b93a1` | `--ez-text-muted` | 3.09:1 → 4.48:1 |
-| `--teal` `#119a8a` | `--ez-color-primary-40` | 시각 차이 거의 없음 |
+| **`--lnb-muted`** `#9aa0a8` | `--ez-text-muted` | **2.64:1 → 4.6:1(캔버스 기준). 값이 바뀐다** |
+| `--text-weak` `#8b93a1` | `--ez-text-muted` | 3.09:1 → 4.6:1(캔버스 기준) |
+| `--teal` `#119a8a` | `--ez-color-primary-40` | 같은 초록 계열. 값은 다르다 |
 | `--teal-600` `#0e8275` | `--ez-action-primary` | |
 | `--lnb-line` `#d7dbe0` | `--ez-border-default` | 사실상 같은 값 |
 | `--st-*` 4종 | `--ez-status-*` | 대비 통과했던 계열 |
