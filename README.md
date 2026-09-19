@@ -22,6 +22,10 @@ import { EzButton, EzTable, useListPage, notify } from '@ezwel/ui'
 ```
 
 태그(`#v1.0.0`)를 반드시 붙인다. 안 붙이면 설치 시점마다 다른 코드가 들어온다.
+npm은 `package.json`에 `github:HyundaiEzwel-AI-Dev-Lab/ez-design-system#v1.0.0` 축약형으로 적는다 — 같은 뜻이다.
+
+비공개 저장소라 인증이 필요하다. 로컬은 `gh auth login`의 credential helper가 처리하고,
+CI에서는 SSH가 편하다 — `git+ssh://git@github.com/HyundaiEzwel-AI-Dev-Lab/ez-design-system.git#v1.0.0`.
 
 ## 만드는 쪽
 

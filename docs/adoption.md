@@ -18,8 +18,10 @@ npm i "git+https://github.com/HyundaiEzwel-AI-Dev-Lab/ez-design-system.git#v1.0.
 `package.json`에는 이렇게 남는다.
 
 ```json
-{ "dependencies": { "@ezwel/ui": "git+https://github.com/HyundaiEzwel-AI-Dev-Lab/ez-design-system.git#v1.0.0" } }
+{ "dependencies": { "@ezwel/ui": "github:HyundaiEzwel-AI-Dev-Lab/ez-design-system#v1.0.0" } }
 ```
+
+npm이 GitHub URL을 `github:` 축약형으로 바꿔 적는다 — 같은 뜻이니 그대로 둔다.
 
 비공개 저장소라 인증이 필요하다. 로컬은 `gh auth login`의 credential helper가 처리하고,
 CI에서는 SSH 쪽이 편하다 — `git+ssh://git@github.com/HyundaiEzwel-AI-Dev-Lab/ez-design-system.git#v1.0.0`.
