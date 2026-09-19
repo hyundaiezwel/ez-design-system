@@ -2,6 +2,8 @@ import { fileURLToPath } from 'node:url'
 import { defineConfig } from 'vitepress'
 
 export default defineConfig({
+  // 프로젝트 페이지는 하위 경로로 뜬다. 로컬은 루트라 기본값 '/'.
+  base: process.env.PAGES_BASE || '/',
   lang: 'ko-KR',
   title: 'EZ Design System',
   description: '현대이지웰 업무 시스템 공용 디자인 시스템',

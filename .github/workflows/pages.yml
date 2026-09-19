@@ -1,0 +1,56 @@
+name: Pages
+
+# GitHub Pages 배포.
+#
+# 조직 플랜이 free라 **저장소가 public일 때만 동작한다**(private Pages는 Enterprise Cloud 전용).
+# private인 동안에는 build 잡까지만 돌고 deploy는 환경 보호에서 막힌다 — 워크플로를 미리
+# 얹어 두는 것은 공개 전환 시 바로 뜨게 하려는 것이다.
+#
+# 켜는 법: 저장소 Settings > Pages > Source = "GitHub Actions"
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# 배포는 겹치면 안 된다. 진행 중인 것을 죽이지 않고 줄을 세운다
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      # 대비 검사를 배포 전에 세운다 — 미달 토큰이 문서 사이트로 나가지 않게 한다
+      - run: npm run check:contrast
+      - run: npm run test
+      - run: npm run docs:build
+        env:
+          # 프로젝트 페이지라 하위 경로로 뜬다
+          PAGES_BASE: /ez-design-system/
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs/.vitepress/dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - id: deploy
+        uses: actions/deploy-pages@v4
