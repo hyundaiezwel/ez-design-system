@@ -64,6 +64,10 @@ const PAIRS = [
   ['--ez-action-danger-on', '--ez-action-danger-hover', 4.5],
   ['--ez-field-placeholder', '--ez-field-bg', 4.5],
   ['--ez-field-placeholder', '--ez-field-bg-readonly', 4.5],
+  // 차트 마크는 비텍스트 요소다 — 면 위에서 3:1(WCAG 1.4.11). 라이트·다크 모두에서 본다
+  ...[1, 2, 3, 4, 5, 6].flatMap((i) =>
+    ['--ez-surface-canvas', '--ez-surface-default'].map((bg) => [`--ez-chart-${i}`, bg, 3]),
+  ),
   ...['neutral', 'brand', 'info', 'success', 'warning', 'danger'].map((t) => [
     `--ez-status-${t}-fg`,
     `--ez-status-${t}-bg`,

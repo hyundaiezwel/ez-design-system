@@ -1,6 +1,6 @@
 import { readFileSync, writeFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
-import { buildAll, contrast, STEPS } from './palette.mjs'
+import { buildAll, chartPalette, contrast, STEPS } from './palette.mjs'
 
 /**
  * `src/styles/tokens.css`의 primitive 색 값을 생성 결과로 덮어쓴다.
@@ -22,8 +22,19 @@ css = css.replace(/(--ez-color-([a-z]+)-(\d+):\s*)#[0-9a-f]{6}/gi, (all, head, f
 
 writeFileSync(path, css)
 
+// 범주형 차트 색
+let ch = 0
+const chart = chartPalette()
+css = css.replace(/(--ez-chart-(\d+):\s*)#[0-9a-f]{6}/gi, (all, head, i) => {
+  const v = chart[Number(i) - 1]
+  if (!v) return all
+  ch++
+  return head + v
+})
+writeFileSync(path, css)
+
 const canvas = palette.gray[10]
-console.log(`primitive ${n}개 갱신 · 캔버스 기준 ${canvas}`)
+console.log(`primitive ${n}개 · 차트 ${ch}개 갱신 · 캔버스 기준 ${canvas}`)
 for (const fam of Object.keys(palette)) {
   const line = STEPS.map((s) => `${s}:${contrast(palette[fam][s], canvas).toFixed(1)}`).join(' ')
   console.log(`  ${fam.padEnd(10)} ${line}`)
