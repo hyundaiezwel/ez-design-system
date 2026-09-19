@@ -2,7 +2,10 @@
 
 현대이지웰 업무 시스템 공용 디자인 시스템. 디자인 토큰과 Vue 3 컴포넌트를 한 패키지로 배포한다.
 
-문서 사이트를 먼저 본다 — `npm run docs:dev` 후 http://localhost:5173
+**문서 사이트: https://hyundaiezwel.github.io/ez-design-system/**
+(스타일가이드: https://hyundaiezwel.github.io/ez-design-system/styleguide.html)
+
+로컬에서 보려면 `npm run docs:dev`.
 
 ## 쓰는 쪽
 
