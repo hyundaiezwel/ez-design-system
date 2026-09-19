@@ -12,7 +12,7 @@
 | | h-pms | 사내 admin 표준 (WebSquare 5) | KRDS (범정부) |
 |---|---|---|---|
 | 형태 | Vue 3 + Vite 운영 코드 | WebSquare 5 SPA 수집본 864파일 | 공개 디자인 시스템 (웹 + Figma) |
-| 확보 경로 | 이 저장소 `frontend/` | `/Users/user/workspace/websquare-bo-ui` | [krds.go.kr](https://www.krds.go.kr/html/site/index.html) |
+| 확보 경로 | 사내 저장소 | 사내 dev 서버 수집본 | [krds.go.kr](https://www.krds.go.kr/html/site/index.html) |
 | 토큰 | CSS 변수 약 180개 (1층) | **0개** — 값 전부 하드코딩 | primitive/semantic 2층, `--krds` 네임스페이스 |
 | 컴포넌트 | Vue SFC 30여 종 (`shared/ui`) | WebSquare 엔진 컴포넌트 + 화면 XML 141개 | 10개 범주 카탈로그 |
 | 패턴 문서 | `docs/guide/ui-behavior.md` (CR-* 규칙) | 없음 (예제 화면 60개가 사실상의 문서) | 기본 패턴 11종 + 서비스 패턴 5종 |
@@ -235,5 +235,5 @@ KRDS 기본 패턴(입력 폼 / 오류 / 필터링·정렬 / 목록 탐색 / 확
 - [KRDS 디지털 정부서비스 UI/UX 가이드라인](https://www.krds.go.kr/html/site/index.html)
 - [KRDS 타이포그래피](https://www.krds.go.kr/html/site/style/style_03.html) · [색상](https://www.krds.go.kr/html/site/style/style_02.html) · [디자인 토큰](https://www.krds.go.kr/html/site/style/style_07.html) · [네이밍 원칙](https://www.krds.go.kr/html/site/utility/utility_03.html)
 - [행정안전부 공공 웹·앱 UI/UX 혁신](https://www.mois.go.kr/frt/sub/a06/b04/uixInnovation/screen.do)
-- 사내 admin 수집본: `/Users/user/workspace/websquare-bo-ui` (`_README.md`, `_MANIFEST.json`)
+- 사내 admin 수집본 (`_README.md`, `_MANIFEST.json`)
 - h-pms: `frontend/src/shared/styles/`, `docs/guide/source/fo-guide/DESIGN_GUIDE.md`, `docs/guide/ui-behavior.md`
