@@ -20,6 +20,7 @@ export default defineConfig({
 
   themeConfig: {
     nav: [
+      { text: '원칙', link: '/principles' },
       { text: '가이드', link: '/foundations' },
       { text: '컴포넌트', link: '/components' },
       { text: '스타일가이드', link: '/styleguide.html', target: '_blank' },
@@ -31,6 +32,10 @@ export default defineConfig({
           { text: '개요', link: '/' },
           { text: '도입', link: '/adoption' },
         ],
+      },
+      {
+        text: '원칙',
+        items: [{ text: '설계 원칙', link: '/principles' }],
       },
       {
         text: '기초',

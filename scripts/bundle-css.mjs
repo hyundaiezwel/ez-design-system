@@ -10,9 +10,10 @@ const at = (p) => fileURLToPath(new URL(p, import.meta.url))
 
 await copyFile(at('../src/styles/tokens.css'), at('../dist/tokens.css'))
 await copyFile(at('../src/styles/base.css'), at('../dist/base.css'))
+await copyFile(at('../src/styles/layout.css'), at('../dist/layout.css'))
 await writeFile(
   at('../dist/all.css'),
-  "@import './tokens.css';\n@import './base.css';\n@import './style.css';\n",
+  "@import './tokens.css';\n@import './base.css';\n@import './layout.css';\n@import './style.css';\n",
 )
 
 console.log('dist/tokens.css, dist/base.css, dist/all.css 생성')

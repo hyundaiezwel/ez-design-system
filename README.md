@@ -30,6 +30,17 @@ npm은 `package.json`에 `github:hyundaiezwel/ez-design-system#v1.0.0` 축약형
 비공개 저장소라 인증이 필요하다. 로컬은 `gh auth login`의 credential helper가 처리하고,
 CI에서는 SSH가 편하다 — `git+ssh://git@github.com/hyundaiezwel/ez-design-system.git#v1.0.0`.
 
+## 새 화면·새 컴포넌트를 만든다면
+
+[설계 원칙](docs/principles.md)을 먼저 본다. 토큰 값은 이미 다 있는데 화면이 만족스럽지
+않다면 그건 값 문제가 아니라 **값을 어디에 얼마나 쓸지 정하는 규칙**이 없어서다.
+
+- §2 여백 — 크기가 아니라 역할로 고른다. 규칙 하나: **그룹 사이 ≥ 그룹 안 × 2**
+- §3 배치 — 화면은 프리미티브 일곱 개로만 조립한다
+- §8 새 화면 만드는 절차 (8단계)
+- §9 새 컴포넌트 만드는 절차 (7단계)
+- §10 리뷰에서 묻는 다섯 가지
+
 ## 만드는 쪽
 
 ```bash

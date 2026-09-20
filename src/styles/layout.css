@@ -1,0 +1,119 @@
+/* =============================================================================
+ * 레이아웃 프리미티브 — 화면은 이 일곱 개로만 조립한다
+ * -----------------------------------------------------------------------------
+ * 화면마다 레이아웃을 새로 짜지 않기 위한 부품이다. 새 화면에서 `position: absolute`나
+ * 일회용 margin이 나오면 **예외가 필요한 게 아니라 부품이 모자란 것**이다.
+ *
+ * 전부 간격을 `--gap` 로 받는다. 기본값은 역할 토큰(`--ez-gap-*`)이고, 필요하면
+ * 인라인으로 다른 역할을 넘긴다 — 숫자를 직접 넣지 않는다.
+ *
+ *   <div class="ez-stack" style="--gap: var(--ez-gap-region)">
+ *
+ * 근거는 `docs/principles.md` §3.
+ * ========================================================================== */
+
+/* ---------------------------------------------------------------------------
+ * Stack — 세로로 쌓고 간격 하나만 준다. 대부분의 화면 뼈대가 이것이다.
+ * 자식에 margin을 주지 않는다 — 간격은 부모가 한 곳에서 정한다.
+ * ------------------------------------------------------------------------- */
+.ez-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap, var(--ez-gap-inter));
+}
+
+/* 마지막 요소를 아래로 밀어붙인다(카드 푸터 등) */
+.ez-stack > .ez-stack__end {
+  margin-top: auto;
+}
+
+/* ---------------------------------------------------------------------------
+ * Cluster — 가로로 묶고 넘치면 줄바꿈. 툴바·버튼 줄·조회 조건·칩.
+ * 미디어 쿼리 대신 `flex-wrap`이 알아서 접는다.
+ * ------------------------------------------------------------------------- */
+.ez-cluster {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--gap, var(--ez-gap-intra));
+}
+
+.ez-cluster--between { justify-content: space-between; }
+.ez-cluster--end { justify-content: flex-end; }
+.ez-cluster--baseline { align-items: baseline; }
+/* 이 자식부터 오른쪽으로 민다 — 툴바의 좌/우 분리에 쓴다 */
+.ez-cluster > .ez-cluster__push { margin-left: auto; }
+
+/* ---------------------------------------------------------------------------
+ * Split — 고정 비율 2열. 위젯 폭이 다 같으면 무엇이 중요한지 보이지 않는다.
+ * 균등 분할은 "전부 똑같이 중요하다"는 말인데 그런 화면은 거의 없다.
+ * ------------------------------------------------------------------------- */
+.ez-split {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: var(--gap, var(--ez-gap-region));
+}
+
+.ez-split--1-2 { grid-template-columns: 1fr 2fr; }
+.ez-split--1-1 { grid-template-columns: 1fr 1fr; }
+
+/* ---------------------------------------------------------------------------
+ * Grid — 열 수를 세지 않는다. 최소 폭만 정하면 브라우저가 몇 열인지 정한다.
+ * ------------------------------------------------------------------------- */
+.ez-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(var(--min, 220px), 1fr));
+  gap: var(--gap, var(--ez-gap-region));
+}
+
+/* ---------------------------------------------------------------------------
+ * Sidebar — 비대칭 2열. 곁열은 내용 폭, 본문은 나머지.
+ * 본문이 `--min`보다 좁아지면 두 줄로 쌓인다(미디어 쿼리 없이).
+ * ------------------------------------------------------------------------- */
+.ez-sidebar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gap, var(--ez-gap-region));
+}
+
+.ez-sidebar > :first-child {
+  flex-basis: var(--side, 320px);
+  flex-grow: 1;
+}
+
+.ez-sidebar > :last-child {
+  flex-basis: 0;
+  flex-grow: 999; /* 공간이 있으면 본문이 다 먹고, 없으면 줄바꿈된다 */
+  min-inline-size: var(--min, 50%);
+}
+
+.ez-sidebar--right > :first-child { order: 2; }
+
+/* ---------------------------------------------------------------------------
+ * Box — 패딩 + 배경 + 경계를 한 덩어리로. 밀도 토큰을 그대로 따른다.
+ * 여유 밀도에서는 테두리가 0이 되고 그림자가 분리를 맡는다.
+ * ------------------------------------------------------------------------- */
+.ez-box {
+  padding: var(--ez-card-padding);
+  background: var(--ez-surface-default);
+  border: var(--ez-card-border-width) solid var(--ez-border-default);
+  border-radius: var(--ez-card-radius);
+  box-shadow: var(--ez-card-shadow);
+}
+
+.ez-box--sunken { background: var(--ez-surface-sunken); }
+.ez-box--flush { padding: 0; }
+
+/* ---------------------------------------------------------------------------
+ * Center — 최대 폭 제한 + 가운데. 읽는 화면(로그인·단일 폼·빈 상태)용.
+ * 폭은 글자 수(`--ez-measure`)가 기본이다 — 글자가 커지면 같이 넓어진다.
+ * ------------------------------------------------------------------------- */
+.ez-center {
+  box-sizing: content-box;
+  max-inline-size: var(--max, var(--ez-measure));
+  margin-inline: auto;
+  padding-inline: var(--ez-space-4);
+}
+
+/* 텍스트 문단에 직접 걸어 읽기 폭을 강제한다 */
+.ez-prose { max-inline-size: var(--ez-measure); }

@@ -7,7 +7,10 @@ hero:
   tagline: 대비비가 토큰 번호에 박혀 있는 디자인 시스템. 색을 고르는 대신 역할을 고른다.
   actions:
     - theme: brand
-      text: 토큰부터 보기
+      text: 설계 원칙부터 보기
+      link: /principles
+    - theme: alt
+      text: 토큰
       link: /foundations
     - theme: alt
       text: 컴포넌트
@@ -18,6 +21,8 @@ hero:
       target: _blank
 
 features:
+  - title: 값이 아니라 절차
+    details: 새 화면·새 컴포넌트를 만들 때 여백·배치·크기를 고르는 순서가 정해져 있다. 감으로 고르지 않는다.
   - title: step 번호 = 대비비
     details: 40이 3:1, 50이 4.5:1, 70이 7:1, 90이 15:1. "이 회색 써도 되나"라는 질문이 사라진다.
   - title: 테마가 공짜로 따라온다
