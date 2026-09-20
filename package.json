@@ -1,6 +1,6 @@
 {
   "name": "@ezwel/ui",
-  "version": "1.5.1",
+  "version": "1.5.2",
   "description": "현대이지웰 업무 시스템 공용 디자인 시스템 — 디자인 토큰과 Vue 3 컴포넌트",
   "license": "UNLICENSED",
   "type": "module",
@@ -27,6 +27,7 @@
     "prepare": "npm run build",
     "palette": "node scripts/generate-tokens.mjs",
     "check:contrast": "node scripts/check-contrast.mjs",
+    "check:anchors": "npm run docs:build && node scripts/check-anchors.mjs",
     "typecheck": "vue-tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
@@ -34,7 +35,7 @@
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
     "docs:preview": "vitepress preview docs",
-    "verify": "npm run check:contrast && npm run typecheck && npm run test && npm run build",
+    "verify": "npm run check:contrast && npm run typecheck && npm run test && npm run build && npm run check:anchors",
     "sync:styleguide": "node scripts/sync-styleguide.mjs"
   },
   "peerDependencies": {
