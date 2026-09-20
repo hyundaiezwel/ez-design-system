@@ -116,6 +116,26 @@ PR에서 볼 것은 넷이다.
 
 `grep -rn "#[0-9a-fA-F]\{6\}" src/ --include=*.vue` 한 줄이면 2번은 걸러진다.
 
+### 1-6. `.ez-*` 클래스 이름은 예약어다
+
+**`layout.css`가 선언한 클래스 이름을 소비 프로젝트가 다시 정의하면 안 된다.**
+`.ez-stack` `.ez-cluster` `.ez-split` `.ez-grid` `.ez-sidebar` `.ez-box` `.ez-center`
+일곱과 그 변형이다. 정본 목록은 하드코딩하지 말고 설치된 파일에서 읽는다.
+
+```bash
+grep -o '^\.ez-[a-z-]*' node_modules/@ezwel/ui/dist/layout.css | sort -u
+```
+
+겹치면 **조용히** 깨진다. 2026-09-20에 어드민 목업이 그랬다 — Tabulator 래퍼에
+`.ez-grid`를 쓰고 있었는데 v1.4.0이 같은 이름을 `display: grid`로 선언하면서,
+표 헤더가 컨테이너 높이를 전부 먹고 본문이 0px가 됐다. **콘솔 오류는 없었고**
+타입 검사도 통과했다. 눈으로 보기 전까지 아무 신호가 없다.
+
+소비 쪽 접두사를 따로 두는 것이 안전하다(`.ez-datagrid`처럼 뜻을 좁히거나,
+`.app-*`로 분리). CI에 걸 검사는
+[어드민 목업의 `audit-static.mjs`](https://github.com/hyundaiezwel/ez-admin-design-system/blob/main/scripts/audit-static.mjs)
+마지막 블록에 있다.
+
 ---
 
 ## 2. 가져오지 않은 것
