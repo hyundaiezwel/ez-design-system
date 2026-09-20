@@ -90,14 +90,20 @@ step 30이 5.8:1, step 20이 8.8:1이다. 그래서 라이트가 80/50을 쓰는
 기본은 **compact**다(목록·폼). 대시보드·통계처럼 위젯 몇 개가 전부인 화면은
 `data-density="comfortable"`을 걸어 여백을 키운다.
 
-| 토큰 | compact | comfortable |
-|---|---|---|
-| `--ez-card-padding` | 16px | **24px** |
-| `--ez-card-gap` | 16px | **24px** |
-| `--ez-card-radius` | 12px | **16px** |
-| `--ez-card-border-width` | 1px | **0** |
-| `--ez-card-shadow` | 없음 | `--ez-shadow-raised` |
-| `--ez-section-gap` | 16px | 24px |
+| 토큰 | 참조 | compact | comfortable |
+|---|---|---|---|
+| `--ez-gap-inter` | — | 16px | 20px |
+| `--ez-gap-block` | — | 20px | 24px |
+| `--ez-gap-region` | — | 24px | 32px |
+| `--ez-card-padding` | `gap-block` | 20px | 24px |
+| `--ez-card-gap` | `gap-region` | 24px | 32px |
+| `--ez-section-gap` | `gap-region` | 24px | 32px |
+| `--ez-card-radius` | — | 12px | **16px** |
+| `--ez-card-border-width` | — | 1px | **0** |
+| `--ez-card-shadow` | — | 없음 | `raised` |
+
+**밀도 토큰은 역할 토큰을 참조한다.** 밀도가 바꾸는 것은 역할 간격 셋과 모양 셋뿐이고,
+카드 패딩·간격은 거기서 따라온다 — 같은 역할에 값이 두 벌이면 문서와 화면이 갈라진다.
 
 ```html
 <main data-density="comfortable"> … </main>
