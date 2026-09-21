@@ -1,6 +1,6 @@
 {
   "name": "@ezwel/ui",
-  "version": "1.6.0",
+  "version": "1.6.1",
   "description": "현대이지웰 업무 시스템 공용 디자인 시스템 — 디자인 토큰과 Vue 3 컴포넌트",
   "license": "UNLICENSED",
   "type": "module",

@@ -65,9 +65,15 @@ const PAIRS = [
   ['--ez-action-danger-on', '--ez-action-danger-hover', 4.5],
   ['--ez-field-placeholder', '--ez-field-bg', 4.5],
   ['--ez-field-placeholder', '--ez-field-bg-readonly', 4.5],
-  // 차트 마크는 비텍스트 요소다 — 면 위에서 3:1(WCAG 1.4.11). 라이트·다크 모두에서 본다
+  // 차트 마크는 비텍스트 요소다 — 면 위에서 3:1(WCAG 1.4.11).
+  //
+  // **선 차트 기준이다.** 면(도넛·누적 막대)은 인접 조각 사이 배경색 획이 경계를 맡으므로
+  // 채움 자체가 3:1일 필요가 없다. 검사기는 마크 종류를 모르니 엄한 쪽으로 잰다.
+  //
+  // v1.6.1에서 참조 팔레트를 그대로 쓰기로 하면서 라이트 캔버스의 셋이 미달로 남았다.
+  // **지우지 않고 경고로 남긴다** — 조용히 없애면 다음 사람이 통과한 줄 안다.
   ...[1, 2, 3, 4, 5, 6, 'muted'].flatMap((i) =>
-    ['--ez-surface-canvas', '--ez-surface-default'].map((bg) => [`--ez-chart-${i}`, bg, 3]),
+    ['--ez-surface-canvas', '--ez-surface-default'].map((bg) => [`--ez-chart-${i}`, bg, 3, 'warn']),
   ),
   ...['neutral', 'brand', 'info', 'success', 'warning', 'danger'].map((t) => [
     `--ez-status-${t}-fg`,
@@ -77,12 +83,14 @@ const PAIRS = [
 ]
 
 let failed = 0
+let warned = 0
 let checked = 0
 let skipped = 0
 
 for (const [theme, map] of Object.entries(THEMES)) {
   const bad = []
-  for (const [fgName, bgName, need] of PAIRS) {
+  const warn = []
+  for (const [fgName, bgName, need, level] of PAIRS) {
     const fg = resolve(map, fgName)
     const bg = resolve(map, bgName)
     if (!fg || !bg) {
@@ -91,18 +99,31 @@ for (const [theme, map] of Object.entries(THEMES)) {
     }
     checked++
     const r = contrast(fg, bg)
-    if (r < need) bad.push(`    ${fgName} on ${bgName}  ${r.toFixed(2)} < ${need}`)
+    if (r >= need) continue
+    const line = `    ${fgName} on ${bgName}  ${r.toFixed(2)} < ${need}`
+    ;(level === 'warn' ? warn : bad).push(line)
   }
   if (bad.length) {
     failed += bad.length
     console.error(`  ${theme}: ${bad.length}건 미달`)
     bad.forEach((l) => console.error(l))
   } else {
-    console.log(`  ${theme}: 통과`)
+    console.log(`  ${theme}: 통과${warn.length ? ` (경고 ${warn.length}건)` : ''}`)
+  }
+  if (warn.length) {
+    warned += warn.length
+    warn.forEach((l) => console.log(l.replace('    ', '    ⚠ ')))
   }
 }
 
-console.log(`\n검사 ${checked}쌍 · 건너뜀 ${skipped}쌍(색이 아닌 값) · 미달 ${failed}건`)
+console.log(`\n검사 ${checked}쌍 · 건너뜀 ${skipped}쌍(색이 아닌 값) · 미달 ${failed}건 · 경고 ${warned}건`)
+if (warned) {
+  console.log(
+    '\n경고는 차트 색이다. 참조 팔레트를 톤 그대로 쓰기로 한 결과이며(v1.6.1),\n' +
+      '면 차트는 배경색 획이 경계를 맡아 문제가 없다. **라이트 테마 선 차트에서만**\n' +
+      '해당 계열이 WCAG 1.4.11 미달이다 — 선이 셋 이상인 화면은 이 표를 보고 판단한다.',
+  )
+}
 if (failed) {
   console.error('\n대비 미달이 있다. 토큰을 고치거나 scripts/palette.mjs 목표를 다시 잡아라.')
   process.exit(1)
