@@ -106,30 +106,93 @@ export const FAMILIES = {
 }
 
 /**
- * 범주형 차트 팔레트.
+ * 차트 팔레트 — **테마별 두 벌**이다.
  *
- * **의미색을 범주에 쓰지 않는다.** success 초록·danger 빨강을 채널 구성 같은 범주에 쓰면
- * "좋음/나쁨"으로 읽힌다 — 실제로 첫 대시보드가 그랬다.
+ * v1.5.2까지는 한 벌로 라이트·다크를 모두 만족시키려 했다. 그게 화면이 칙칙했던
+ * 원인이다: 두 캔버스 모두에서 3:1을 넘는 명도 구간은 전체의 18%(v=100~140)뿐이라,
+ * 여섯 색을 그 띠에 욱여넣으면 명도가 서로 같아지고 같은 명도로 다른 색상을 만들려면
+ * 채도를 깎게 된다. 실측으로 평균 채도 C* 38, 최소 ΔE 15.6까지 떨어져 있었다.
  *
- * 설계 세 가지.
- *   1. 채도를 낮춘다(0.34~0.45). 완전 채도 6색이 나란히 있으면 어느 계열도 눈에 안 들어온다
- *   2. 휘도를 두 밴드로 번갈아 둔다. 인접 색상이 비슷해 보여도 밝기로 갈린다
- *   3. 모든 색이 라이트 캔버스·다크 면 **양쪽에서 3:1 이상**이다(WCAG 1.4.11 비텍스트 대비).
- *      그래서 테마별로 두 벌을 두지 않는다
+ * 테마를 갈라 각자 자기 배경의 명도 범위를 다 쓰게 하면 채도를 깎을 이유가 없어진다.
+ * 색상각은 Figma 기본 팔레트에서 가져왔고(참조 톤), 명도만 캔버스에 맞춰 사다리로 벌린다.
+ * 흰 캔버스는 L* 58 아래에서만 3:1이 나오므로 라이트 쪽 폭은 **아래로** 만든다.
  *
- * 패턴(`aria.decal`)과 함께 쓰는 것을 전제한다 — 색만으로 계열을 가르지 않는다.
+ * HSL이 아니라 LCh로 잡는다 — 같은 L*이면 색상이 달라도 눈에 같은 밝기로 보인다.
+ * HSL의 L은 그 성질이 없어서 노랑과 파랑이 같은 값에서 전혀 다른 밝기로 나온다.
+ *
+ * 색각이상은 색만으로 못 푼다(2색각은 명도·청황 두 축만 본다). 여섯 범주를 색상으로
+ * 가르는 것은 불가능하므로 `aria.decal` 패턴과 함께 쓰는 것을 전제한다.
+ *
+ * 7개 이상이 필요하면 계열을 늘리지 말고 묶어서 '기타'로 접는다.
  */
-const CHART = [
-  [172, 0.42, 0.2], // 브랜드 틸
-  [212, 0.4, 0.13], // 네이비
-  [38, 0.45, 0.22], // 오커
-  [268, 0.34, 0.14], // 플럼
-  [128, 0.34, 0.21], // 세이지
-  [8, 0.38, 0.145], // 브릭
-]
 
-export function chartPalette() {
-  return CHART.map(([hue, sat, y]) => solve(hue, sat, y))
+/** Lab → sRGB. 색역 밖이면 null */
+function lch2rgb(L, C, h) {
+  const a = C * Math.cos((h * Math.PI) / 180)
+  const b = C * Math.sin((h * Math.PI) / 180)
+  const fy = (L + 16) / 116
+  const [fx, fz] = [fy + a / 500, fy - b / 200]
+  const inv = (t) => (t ** 3 > 0.008856 ? t ** 3 : (t - 16 / 116) / 7.787)
+  const [X, Y, Z] = [inv(fx) * 0.95047, inv(fy), inv(fz) * 1.08883]
+  const lin = [
+    X * 3.2406 + Y * -1.5372 + Z * -0.4986,
+    X * -0.9689 + Y * 1.8758 + Z * 0.0415,
+    X * 0.0557 + Y * -0.204 + Z * 1.057,
+  ]
+  const out = []
+  for (const v of lin) {
+    if (v < -0.002 || v > 1.002) return null
+    const c = Math.max(0, Math.min(1, v))
+    out.push((c <= 0.0031308 ? c * 12.92 : 1.055 * c ** (1 / 2.4) - 0.055) * 255)
+  }
+  return out
+}
+
+/** 이 L*·색상각에서 색역에 들어가는 최대 채도 */
+function maxChroma(L, h) {
+  let lo = 0
+  let hi = 132
+  for (let i = 0; i < 26; i++) {
+    const mid = (lo + hi) / 2
+    lch2rgb(L, mid, h) ? (lo = mid) : (hi = mid)
+  }
+  return lo
+}
+
+/**
+ * 색상각의 출처. Figma 기본 팔레트를 그대로 적고 각도는 **여기서 계산한다** —
+ * 손으로 옮겨 적으면 어긋난다(실제로 파랑을 268로 적었는데 283이었다).
+ * 파랑 · 주황 · 초록 · 보라 · 하늘 · 빨강.
+ */
+const CHART_REF = ['#2F80ED', '#F2994A', '#6FCF97', '#BB6BD9', '#56CCF2', '#EB5757']
+
+/** sRGB → Lab 색상각 */
+function hueOf(hex) {
+  const [r, g, b] = hex2rgb(hex).map((v) => SRGB(v))
+  let X = (r * 0.4124 + g * 0.3576 + b * 0.1805) / 0.95047
+  let Y = r * 0.2126 + g * 0.7152 + b * 0.0722
+  let Z = (r * 0.0193 + g * 0.1192 + b * 0.9505) / 1.08883
+  const f = (t) => (t > 0.008856 ? Math.cbrt(t) : 7.787 * t + 16 / 116)
+  ;[X, Y, Z] = [f(X), f(Y), f(Z)]
+  return ((Math.atan2(200 * (Y - Z), 500 * (X - Y)) * 180) / Math.PI + 360) % 360
+}
+
+const CHART_HUE = CHART_REF.map(hueOf)
+
+/** 캔버스별 L* 사다리. 라이트는 3:1 때문에 58이 천장이라 아래로 벌린다 */
+const CHART_L = {
+  light: [46, 57, 52, 48, 56, 42],
+  dark: [62, 74, 70, 60, 78, 64],
+}
+
+/** 채도 상한. 색역 끝까지 밀면 형광이 된다 — 참조가 C* 36~66이라 그 위를 넘지 않는다 */
+const CHART_C_MAX = 66
+
+export function chartPalette(scheme = 'light') {
+  return CHART_HUE.map((hue, i) => {
+    const L = CHART_L[scheme][i]
+    return rgb2hex(lch2rgb(L, Math.min(maxChroma(L, hue) * 0.95, CHART_C_MAX), hue))
+  })
 }
 
 export function buildAll() {

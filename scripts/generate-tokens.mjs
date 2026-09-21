@@ -22,15 +22,23 @@ css = css.replace(/(--ez-color-([a-z]+)-(\d+):\s*)#[0-9a-f]{6}/gi, (all, head, f
 
 writeFileSync(path, css)
 
-// 범주형 차트 색
+// 범주형 차트 색 — **테마마다 다른 값**이라 한 번에 치환하면 다크가 라이트로 덮인다.
+// 다크 셀렉터를 경계로 잘라서 각자 자기 팔레트를 받는다.
 let ch = 0
-const chart = chartPalette()
-css = css.replace(/(--ez-chart-(\d+):\s*)#[0-9a-f]{6}/gi, (all, head, i) => {
-  const v = chart[Number(i) - 1]
-  if (!v) return all
-  ch++
-  return head + v
-})
+const DARK_SELECTOR = "\n:root[data-theme='dark'],"
+const cut = css.indexOf(DARK_SELECTOR)
+if (cut < 0) throw new Error('다크 블록을 못 찾았다 — tokens.css의 셀렉터가 바뀌었는지 본다')
+
+const paint = (part, scheme) => {
+  const chart = chartPalette(scheme)
+  return part.replace(/(--ez-chart-(\d+):\s*)#[0-9a-f]{6}/gi, (all, head, i) => {
+    const v = chart[Number(i) - 1]
+    if (!v) return all
+    ch++
+    return head + v
+  })
+}
+css = paint(css.slice(0, cut), 'light') + paint(css.slice(cut), 'dark')
 writeFileSync(path, css)
 
 const canvas = palette.gray[10]
